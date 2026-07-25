@@ -1,0 +1,76 @@
+---
+title: "Known Issues in Unleashed Recompiled"
+sidebarTitle: "Known Issues"
+description: "Known issues in Unleashed Recompiled including unavoidable stutters, high frame rate glitches, ultrawide visual issues, and original game bugs."
+---
+
+Unleashed Recompiled is built to be as stable and accurate as possible, but a handful of issues exist that are either not yet resolved, fundamentally difficult to fix, or intentional by design. This page documents every known issue in full so you know what to expect and, where applicable, how to work around it.
+
+---
+
+## Unavoidable Stutters
+
+Even with the recompilation's best efforts to eliminate hitches, some stutters cannot be fixed because of how the original game was programmed. Certain operations in Sonic Unleashed were never designed to run asynchronously: spawning layers of new objects at stage checkpoints, triggering particle systems, and playing multiple sound effects simultaneously are all performed synchronously on the main thread.
+
+These pauses exist on the original Xbox 360 hardware as well, but they are far more noticeable when targeting higher frame rates. A single hitch can last nearly **10 milliseconds** even on powerful modern hardware. At 60 FPS each frame lasts ~16.6 ms, so a 10 ms hitch is a brief hiccup; at 120 FPS each frame lasts only ~8.3 ms, meaning that same hitch consumes more than a full frame.
+
+<Note>
+  Linux users may notice significantly fewer of these stutters than Windows users. The heavy thread synchronization the game performs during these operations appears to be handled more efficiently by the Linux CPU scheduler than the Windows scheduler. Switching to Linux can meaningfully improve CPU-bound scenarios.
+</Note>
+
+These stutters are distinct from shader compilation stutter — Unleashed Recompiled eliminates shader stutter entirely through its async compilation system. If you encounter a brief pause, it is caused by the game's synchronous loading code, not pipelines being compiled.
+
+Addressing these stutters requires deeper research into the game's internals. Some cases may be fixed in future updates as that research progresses.
+
+---
+
+## High Frame Rate Glitches
+
+Sonic Unleashed was not designed to run at a fixed, stable frame rate on any of its original platforms. The Xbox 360 version targets 30 FPS but frequently deviates from it; the PlayStation 3 version is uncapped. In both cases the game follows a variable time step as closely as possible, meaning the original code was never written to handle perfectly consistent frame timing.
+
+This has two practical consequences:
+
+1. **Bugs introduced by high frame rates** — Many glitches in the original game can be explained by sudden spikes in frame time. When running at a stable high frame rate, the game's assumptions about timing irregularities are violated, surfacing bugs that rarely or never appear on original hardware.
+2. **Bugs introduced by stable frame rates** — Counterintuitively, some bugs only appear when the frame rate is *too consistent*. One notable example is a [bug present in the Wii version](https://github.com/hedge-dev/UnleashedRecomp/issues/100) of the game that manifests because a cutscene was recorded with a fixed time step — this same issue can appear in Unleashed Recompiled at a stable high frame rate.
+
+Unleashed Recompiled includes a large number of fixes for high frame rate issues, and the game is considered completable at frame rates above 60 FPS. However, fixing every edge case requires knowledge of parts of the game's code that have not yet been fully researched, and some issues remain unresolved.
+
+<Tip>
+  If you encounter a game-breaking bug or an unplayable section while running above 60 FPS, try temporarily lowering the frame rate cap to 60 FPS in the options menu to work around it. Check the [Issues tracker](https://github.com/hedge-dev/UnleashedRecomp/issues) to see if the problem has already been reported before filing a new report.
+</Tip>
+
+Additional fixes will continue to be introduced in future updates, and alternative solutions such as transform interpolation are also being considered.
+
+---
+
+## Ultrawide Visual Issues
+
+When the cutscene aspect ratio lock is disabled, visual oddities may appear during cutscenes on ultrawide displays. These can include characters or objects that are incorrectly positioned, animations that clip into geometry, or general composition problems that were never accounted for in the original cutscene data.
+
+The root cause is that the game's cutscene files encode animation data and object placement for a 16:9 frame. Correcting these issues on a scene-by-scene basis requires modifying the animation and object placement data within individual cutscene files — work that falls outside the scope of what Unleashed Recompiled can address at the engine level.
+
+These presentation problems can and should be fixed through mods. Cutscene corrections for common ultrawide oddities are an appropriate target for the modding community.
+
+By default, cutscenes are locked to their original aspect ratio to prevent these issues. Only enable the aspect ratio unlock if you are comfortable with potential visual quirks during cutscenes.
+
+---
+
+## Original Game Bugs
+
+<Warning>
+  Bugs that were present on the original Xbox 360 hardware are intentionally preserved in Unleashed Recompiled and will not be fixed. **Do not report issues that exist in the original game.** Bug reports for original game bugs will be rejected without further investigation.
+
+  Any bug report for an issue that occurs in Unleashed Recompiled **must be accompanied by footage captured on original Xbox 360 hardware** demonstrating that the same bug does not occur there. Reports without this evidence cannot be accepted, as there is no way to distinguish original game behaviour from a regression introduced by the recompilation.
+</Warning>
+
+If you believe you have found a genuine regression — something that behaves differently in Unleashed Recompiled compared to the original Xbox 360 release — please verify it on original hardware before filing a report, and include your comparison footage in the issue.
+
+---
+
+## File Picker Unavailable on Steam Deck in Game Mode
+
+When running Unleashed Recompiled in Steam Deck Game Mode, the system file picker that the installer uses to browse for game files may not be available due to restrictions in how the Game Mode desktop environment operates.
+
+<Tip>
+  **Workaround:** Boot into Desktop Mode at least once before running the game in Game Mode. A single boot into Desktop Mode is enough to enable the file picker for all subsequent Game Mode sessions. If you prefer, you can also complete the entire installation process while in Desktop Mode and then switch back to Game Mode afterwards.
+</Tip>

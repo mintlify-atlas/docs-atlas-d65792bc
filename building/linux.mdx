@@ -1,0 +1,105 @@
+---
+title: "Build Unleashed Recompiled on Linux"
+sidebarTitle: "Linux"
+description: "Build Unleashed Recompiled on Linux with CMake and Clang. Supports Debian/Ubuntu and Arch-based distributions."
+---
+
+Linux builds are driven entirely from the command line using CMake and the Ninja generator. The compiler is **Clang**, configured via the bundled `toolchains/linux-clang.cmake` toolchain file. vcpkg is included as a submodule and installs all C++ dependencies automatically during the first CMake configure run.
+
+## Build Steps
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the repository with all submodules:
+
+    ```bash
+    git clone --recurse-submodules https://github.com/hedge-dev/UnleashedRecomp.git
+    cd UnleashedRecomp
+    ```
+  </Step>
+
+  <Step title="Add the required game files">
+    Copy the following files from your legally acquired copy of Sonic Unleashed into `./UnleashedRecompLib/private/`:
+
+    - `default.xex` — found in the game's root directory
+    - `default.xexp` — obtained from the title update package
+    - `shader.ar` — found in the game's root directory
+
+    <Tip>
+      Install the game using an existing [Unleashed Recompiled
+      release](https://github.com/hedge-dev/UnleashedRecomp/releases/latest) to
+      get verified copies of these files. They will be stored under `game` and
+      `update` subdirectories of your installation.
+    </Tip>
+  </Step>
+
+  <Step title="Install system dependencies">
+    Install the packages required by the build. Commands are provided for **apt** (Debian/Ubuntu) and **pacman** (Arch):
+
+    <CodeGroup>
+      ```bash apt (Debian / Ubuntu)
+      sudo apt install autoconf automake libtool pkg-config curl cmake ninja-build clang clang-tools libgtk-3-dev
+      ```
+
+      ```bash pacman (Arch)
+      sudo pacman -S base-devel ninja lld clang gtk3
+      ```
+    </CodeGroup>
+
+    <Note>
+      This list may not be comprehensive for every distribution. If CMake
+      configuration fails with a missing package error, install the equivalent
+      package for your distro and re-run the configure step.
+    </Note>
+  </Step>
+
+  <Step title="Configure the project">
+    From the repository root, run CMake with your chosen preset. The example below uses `linux-release`; see the [preset reference](#available-presets) for all options:
+
+    ```bash
+    cmake . --preset linux-release
+    ```
+
+    CMake will bootstrap vcpkg and download/build all required libraries into `./thirdparty/vcpkg/`. This only happens on the first configure and can take several minutes depending on your internet connection and CPU speed.
+  </Step>
+
+  <Step title="Build the project">
+    Compile the `UnleashedRecomp` target using the build directory that matches your chosen preset:
+
+    ```bash
+    cmake --build ./out/build/linux-release --target UnleashedRecomp
+    ```
+
+    <Note>
+      The first build is slower than usual because XenonRecomp and XenosRecomp
+      translate the game's PowerPC binary and Xenos shader bytecode into C++ and
+      HLSL as part of the build. Subsequent builds skip this step unless the
+      input game files change.
+    </Note>
+  </Step>
+
+  <Step title="Run the game">
+    Navigate to the build output directory and launch the executable:
+
+    ```bash
+    ./out/build/linux-release/UnleashedRecomp/UnleashedRecomp
+    ```
+
+    On the first run the game will prompt you for your Sonic Unleashed game files if it cannot find an existing installation. Point it to the directory containing your `dlc`, `game`, and `update` folders.
+  </Step>
+</Steps>
+
+## Available Presets
+
+| Preset | Build type | Notes |
+|---|---|---|
+| `linux-debug` | Debug | Full debug symbols, no optimisation |
+| `linux-relwithdebinfo` | RelWithDebInfo | Debug symbols + optimisation; recommended for development |
+| `linux-release` | Release | LTO enabled; best runtime performance |
+
+<Tip>
+  Linux has a notable CPU performance advantage over Windows for this project
+  due to the game's heavy use of thread synchronisation primitives — the Linux
+  kernel scheduler handles them more efficiently. If raw performance is a
+  priority, prefer a `linux-release` build.
+</Tip>

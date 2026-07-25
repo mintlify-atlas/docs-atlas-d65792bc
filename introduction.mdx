@@ -1,0 +1,55 @@
+---
+title: "Unleashed Recompiled: Unofficial Sonic Unleashed PC Port"
+sidebarTitle: "Introduction"
+description: "Unleashed Recompiled is an unofficial PC port of Sonic Unleashed for Xbox 360, built via static recompilation with native performance and mod support."
+---
+
+Unleashed Recompiled is an unofficial PC port of the Xbox 360 version of Sonic Unleashed, created through the process of **static recompilation** — a fundamentally different approach from emulation. Rather than simulating the Xbox 360 hardware at runtime, static recompilation translates the game's original machine code into equivalent native code ahead of time, allowing it to run directly on a PC with native performance and without the overhead or compatibility limitations of an emulator.
+
+## How It Works
+
+The recompilation is powered by two purpose-built tools developed for this project:
+
+- **[XenonRecomp](https://github.com/hedge-dev/XenonRecomp)** — converts the game's original PowerPC executable code into C++, enabling it to compile and run natively on x86-64 processors.
+- **[XenosRecomp](https://github.com/hedge-dev/XenosRecomp)** — converts the game's Xenos GPU shaders into HLSL, making them compatible with modern graphics APIs (Direct3D 12 and Vulkan).
+
+Together, these tools allow the entirety of Sonic Unleashed's game logic and rendering pipeline to run on standard PC hardware without emulating the Xbox 360's CPU or GPU. The development of these recompilers was directly inspired by [N64: Recompiled](https://github.com/N64Recomp/N64Recomp), the same technology behind [Zelda 64: Recompiled](https://github.com/Zelda64Recomp/Zelda64Recomp).
+
+## Supported Platforms
+
+Unleashed Recompiled targets the following platforms:
+
+- **Windows** — primary supported platform (Windows 10 version 1909 or later)
+- **Linux** — native builds available, including a Flatpak release for easy installation on the Steam Deck
+- **macOS** — not on the official roadmap, but community-driven efforts to add Metal support are welcome
+
+<Note>
+  Unleashed Recompiled is open-source software licensed under the **GPL-3.0** license. The full source code is available on [GitHub](https://github.com/hedge-dev/UnleashedRecomp).
+</Note>
+
+## Before You Begin
+
+<Note>
+  **No game assets are included with Unleashed Recompiled.** You must provide the files from your own legally acquired copy of Sonic Unleashed for Xbox 360 in order to install or build the port. Downloading game files from the internet is not supported or condoned.
+</Note>
+
+<Warning>
+  **The Japanese (JP) version of Sonic Unleashed is not supported.** The JP release has differences in both file structure and content that make it incompatible with the international release. Only the **US** and **EU** versions of the game are supported. Note that the US and EU versions already include full Japanese language support.
+</Warning>
+
+## Get Started
+
+<CardGroup cols={2}>
+  <Card title="System Requirements" icon="microchip" href="/system-requirements">
+    Check whether your PC meets the minimum CPU, GPU, RAM, and OS requirements before installing.
+  </Card>
+  <Card title="Dumping Your Game" icon="hard-drive" href="/dumping/overview">
+    Learn how to acquire the game files from your own Xbox 360 console or storage device.
+  </Card>
+  <Card title="Installation" icon="download" href="/installation/installing">
+    Download the latest release and follow the step-by-step installation guide.
+  </Card>
+  <Card title="Building from Source" icon="code" href="/building/overview">
+    Compile Unleashed Recompiled yourself from the open-source repository.
+  </Card>
+</CardGroup>

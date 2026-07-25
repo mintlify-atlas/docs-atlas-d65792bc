@@ -1,28 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Unleashed Recompiled",
+  "projectType": "general",
+  "projectName": "Unleashed Recompiled",
+  "projectDescription": "An unofficial PC port of the Xbox 360 version of Sonic Unleashed created through static recompilation, supporting Windows, Linux, and macOS with built-in enhancements such as high resolutions, ultrawide support, high frame rates, and mod support.",
   "theme": "aspen",
-  "colors": {
-    "primary": "#646464",
-    "light": "#a4c93a",
-    "dark": "#619811"
-  },
-  "favicon": "https://media.brand.dev/5c0c7679-678d-489f-b73f-e65340804bcc.jpg",
-  "logo": {
-    "light": "https://media.brand.dev/f216e88c-2de2-4ba1-9ace-57dbb3171f55.png",
-    "dark": "https://media.brand.dev/f216e88c-2de2-4ba1-9ace-57dbb3171f55.png"
-  },
-  "navbar": {
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/hedge-dev/UnleashedRecomp"
-    }
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/hedge-dev/UnleashedRecomp"
-    }
-  },
+  "primaryColor": "#646464",
+  "lightColor": "#a4c93a",
+  "darkColor": "#619811",
   "navigation": {
     "tabs": [
       {
@@ -115,5 +98,30 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "Static recompilation of Xbox 360 PowerPC code and Xenos shaders to C++ and HLSL",
+    "Windows, Linux (including Flatpak/Steam Deck), and macOS support",
+    "High resolution support with MSAA, enhanced DoF, and ultrawide aspect ratios",
+    "Unlocked/high frame rate support with extensive glitch fixes",
+    "Asynchronous shader compilation with zero in-gameplay stutter",
+    "High-performance renderer using D3D12 and Vulkan with bindless textures",
+    "Built-in mod loader compatible with Hedge Mod Manager",
+    "Achievement system with in-game notifications",
+    "Full localization: English, Japanese, German, French, Spanish, Italian",
+    "DualShock 4 / DualSense LED color + touchpad support",
+    "Low input latency via Waitable Swap Chains and Flip Models",
+    "config.toml-based configuration with portable mode"
+  ],
+  "publicApiSurface": [
+    "config.toml (System, Input, Bindings, Audio, Video, Codes sections)",
+    "CONFIG_DEFINE / CONFIG_DEFINE_LOCALISED / CONFIG_DEFINE_ENUM_LOCALISED macros",
+    "ModLoader::ResolvePath(path)",
+    "ModLoader::GetIncludeDirectories(modIndex)",
+    "ModLoader::Init()",
+    "CMake presets: linux-debug, linux-relwithdebinfo, linux-release, x64-Clang-Debug, x64-Clang-Release, x64-Clang-RelWithDebInfo, macos-debug, macos-relwithdebinfo, macos-release",
+    "Launch arguments: --install, --sdl-video-driver <x11|wayland>",
+    "portable.txt (forces local save/config storage)",
+    "Save data paths: %APPDATA%\\UnleashedRecomp\\ (Windows), ~/.config/UnleashedRecomp/ (Linux)"
+  ]
 }

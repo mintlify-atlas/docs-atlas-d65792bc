@@ -1,0 +1,242 @@
+---
+title: "Enhancements and Features in Unleashed Recompiled"
+sidebarTitle: "Enhancements"
+description: "Explore every enhancement in Unleashed Recompiled: high resolution, ultrawide, high frame rates, async shaders, mod support, achievements, and more."
+---
+
+Unleashed Recompiled is far more than a straight port — it ships with a suite of built-in enhancements designed to modernise Sonic Unleashed for PC without compromising the original game's design. From a guided installation wizard and a fully native options menu to async shader compilation, ultrawide support, and a complete achievement system, every feature is built directly into the recompilation rather than bolted on as an afterthought.
+
+<CardGroup cols={2}>
+  <Card title="High Frame Rate Support" icon="gauge-high">
+    Default 60 FPS cap with unlocked and higher targets available. Extensive high-FPS bug fixes are included out of the box.
+  </Card>
+  <Card title="Asynchronous Shader Compilation" icon="bolt">
+    Zero in-gameplay shader stutter. Pipeline compilation is integrated directly into the game's asset loading pipeline.
+  </Card>
+  <Card title="High Resolution Enhancements" icon="display">
+    MSAA beyond 2x, enhanced Depth of Field, improved Motion Blur, Alpha to Coverage AA, Bicubic GI filtering, and a more precise reverse Z.
+  </Card>
+  <Card title="Ultrawide Support" icon="arrows-left-right">
+    Native 21:9 and wider support with configurable UI alignment and an optional cutscene aspect ratio unlock.
+  </Card>
+  <Card title="Mod Support" icon="puzzle-piece">
+    HedgeModManager-compatible with full Generations mod format support. Backwards-compatible with Unleashed Mod Manager mods.
+  </Card>
+  <Card title="Achievements" icon="trophy">
+    Fully recreated achievement system with in-game notifications, a dedicated menu, and a gold trophy for 100% completion.
+  </Card>
+</CardGroup>
+
+---
+
+## Easy to Use Installer
+
+Getting Unleashed Recompiled up and running requires your own legally acquired copy of the Xbox 360 game. Once you have the files, a built-in installation wizard walks you through every step of the process, performing numerous integrity checks along the way to ensure the installation succeeds without issues.
+
+The installer is not a one-time utility: it remains accessible from the title screen after the initial setup, so you can add the optional DLC Adventure Packs at any point later without having to restart the entire process.
+
+<Note>
+  The installer will only accept original, unmodified game files. Modified files will be rejected.
+</Note>
+
+---
+
+## Options Menu
+
+Unleashed Recompiled includes a completely new in-game options menu that maintains an unprecedented level of fidelity to the original game's design language. It is accessible from the title screen or the pause menu at any time and supports full controller navigation throughout.
+
+The menu consolidates graphics settings, quality of life toggles, controller options, and localization preferences into a single location — all without leaving the game.
+
+---
+
+## Achievements
+
+Progress through the game and you will earn achievements just as you would on the original Xbox 360 platform. The system is built from scratch and includes:
+
+- **Integrated notifications** that appear on screen when an achievement is unlocked, faithful to the game's visual style.
+- **A dedicated achievements menu** accessible in-game.
+- **A gold trophy** awarded when every achievement has been earned, as a reward for 100% completion.
+
+<Note>
+  Achievements in Unleashed Recompiled are an internal system and are not linked to external platforms such as Steam or RetroAchievements.
+</Note>
+
+---
+
+## Custom Localization
+
+All new menus and UI elements added by the port are fully localised into every language the original game supported: **English, Japanese, German, French, Spanish, and Italian**. Switching the game's language to Japanese also restores the original Japanese title screen logo, a small but faithful touch that was absent from international releases.
+
+---
+
+## High Fidelity
+
+Significant effort was invested in reproducing the game's visuals as accurately as possible, with constant comparison against footage from original hardware. The colors are as vibrant as those of the PlayStation 3 version of the game, which did not apply the color correction filter present in the Xbox 360 version — and which is now understood to reflect the developers' original intent.
+
+For players who prefer the look of the Xbox 360 version, an option to re-enable the original warm color correction filter is available in the options menu.
+
+---
+
+## High Resolution Enhancements
+
+Unleashed Recompiled ships with a set of rendering improvements specifically designed to hold up at modern display resolutions:
+
+- **MSAA beyond 2x** — Anti-aliasing levels higher than the 2x cap used by the original game are now available.
+- **Enhanced Depth of Field** — The original DoF effect is known to break in emulators at higher resolutions. The effect's formula was reverse-engineered and reimplemented with 5×5, 7×7, and 9×9 tap variants that scale with target resolution.
+- **Enhanced Motion Blur** — An optional higher-sample count mode produces a smoother blur than the original game.
+- **Alpha to Coverage Anti-Aliasing** — Transparent textures with hard edges, such as foliage, benefit from this technique which significantly improves their visual quality.
+- **Bicubic GI Filtering** — Applies bicubic texture filtering to Global Illumination textures, eliminating the blocky appearance they exhibit at high resolutions.
+- **Improved Reverse Z** — A more precise implementation of the game's reverse Z depth technique eliminates the majority of Z-fighting artifacts and resolves the jittery motion blur visible in stages like Jungle Joyride.
+
+---
+
+## High Performance Renderer
+
+A new renderer was written from scratch to translate the game's draw calls into modern graphics APIs in a highly efficient, multi-threaded manner. Because static recompilation does not require emulating the original Xbox 360 GPU, the renderer can skip hardware quirks that are irrelevant to a PC port and apply modern techniques freely:
+
+- **Direct3D 12 and Vulkan backends** — both modern APIs are supported.
+- **Multi-threaded rendering** — draw calls are dispatched across threads for maximum CPU utilisation.
+- **Bindless textures** — reduces CPU-side overhead and driver state management.
+- **Shader specialization** — pipelines are specialised at compile time to maximise GPU performance.
+- **Optimized shadow map rendering** — multiple passes through the game's shadow rendering code have been streamlined.
+- **Automatic unnecessary copy elimination** — special heuristics detect and skip texture copies that serve no purpose in modern APIs.
+- **Parallel transfer queues** — asset streaming leverages dedicated transfer queues to make efficient use of available PCIe bandwidth, a capability only exposed by modern graphics APIs.
+
+---
+
+## High Frame Rate Support
+
+The default frame rate cap has been raised to **60 FPS**, with options for higher targets (120 FPS, 240 FPS) and an uncapped mode available in the options menu. A large number of gameplay glitches that manifest at high frame rates — originating from the game's time-step sensitivity — have been researched and fixed as part of the recompilation.
+
+<Note>
+  While the game is considered completable at frame rates higher than 60 FPS, some edge-case issues can still occur. See [Known Issues](/reference/known-issues#high-frame-rate-glitches) for details. Additional fixes are planned for future updates.
+</Note>
+
+---
+
+## Ultrawide Support
+
+Aspect ratios wider than 16:9 — including 21:9 and beyond — are supported natively without any external tools or codes. The options menu provides:
+
+- **UI alignment** — choose between anchoring UI elements to the screen edges or constraining them to the original 16:9 safe area.
+- **Cutscene aspect ratio** — cutscenes are locked to their original aspect ratio by default to prevent visual oddities. An option to unlock the cutscene aspect ratio is available for players who prefer full-width presentation.
+
+<Note>
+  Unlocking the cutscene aspect ratio can produce visual oddities, as the game was not designed for wider formats. See [Known Issues](/reference/known-issues#ultrawide-visual-issues) for more information.
+</Note>
+
+---
+
+## Extended Controller Features
+
+Several controller improvements have been added that were not present in the original game:
+
+- **D-Pad support** — the D-Pad can now be used throughout the entire game as a substitute for the analog stick, making it possible to complete the full game using it exclusively.
+- **DualShock 4 / DualSense LED** — the controller's light bar dynamically changes color based on the current game context.
+- **DualSense / DualShock 4 touchpad on the World Map** — the touchpad can be used to spin the planet globe freely on the World Map screen.
+
+<Note>
+  LED and touchpad support may be limited when using third-party input translation layers such as DS4Windows or Steam Input, and may also be limited on Linux.
+</Note>
+
+---
+
+## Low Input Latency
+
+Modern input latency reduction techniques are applied to keep the game as responsive as possible:
+
+- **Waitable Swap Chains** (D3D12 and Vulkan) — input is polled directly before presenting the frame, minimising the gap between player input and on-screen response.
+- **Flip Models** (D3D12 only) — the D3D12 backend uses DXGI Flip Model presentation, allowing frames to be delivered to the display as quickly as possible rather than going through the Desktop Window Manager's composition path.
+
+---
+
+## Asynchronous Shader Compilation
+
+One of the most significant improvements Unleashed Recompiled offers over emulation-based play is its approach to shader (pipeline) compilation. Rather than compiling shaders on demand the first time an object appears — causing the familiar stutter seen in emulators — pipeline compilation is integrated directly into the game's asset loading system.
+
+The renderer traverses the game's rendering structures and determines which pipelines must be ready before an asset is considered fully loaded. Compilation then happens in parallel with the background workers that stream in assets, whether during normal gameplay or during loading screens.
+
+A small set of post-processing and 2D-element pipelines that cannot be detected ahead of time are pre-compiled during the game's boot sequence. This pre-compilation runs entirely in the background and is completed quickly enough that no dedicated shader compilation screen is needed on most tested hardware.
+
+<Note>
+  Shader compilation stutters are non-existent, but some unavoidable stutters caused by the original game's synchronous operations may still occur. These are unrelated to shader compilation — see [Known Issues](/reference/known-issues#unavoidable-stutters) for details.
+</Note>
+
+---
+
+## Xbox and PlayStation Controller Icons
+
+The game's button prompt icons can be set to **Xbox 360** or **PlayStation 3** style, selectable from the options menu. By default the game detects which icon set to use automatically based on the connected controller. In-game objects that display controller icons — such as Reaction Plates and Jump Selectors — will automatically swap their textures to match the active setting. Even fine details like the Tornado Defense missile color differences between versions are accounted for.
+
+---
+
+## Quality of Life Options
+
+A range of quality of life improvements are available from the options menu:
+
+- **Disable Hint Rings** — hint rings and other contextual hints during exploration and boss fights can be turned off.
+- **Disable Control Tutorials** — button prompt tutorials that appear during gameplay to teach moves can be hidden.
+- **Disable Werehog Battle Theme** — the Werehog's battle music, which frequently interrupts stage BGM, can be disabled entirely.
+- **Day/Night Transition Version** — the transformation cutscene in towns can use either the Xbox 360 version (which artificially extends loading to play the full video) or the PlayStation 3 version (which ends as soon as loading is complete).
+- **Music Attenuation** — originally present on Xbox 360 to mute background music when the console's media player was active. On Windows, this is implemented using the [Windows Media Control](https://learn.microsoft.com/en-us/uwp/api/windows.media.control) APIs in WinRT, and works with any application that surfaces media controls to Windows 10/11.
+
+<Note>
+  Music Attenuation is a Windows-only feature and is not currently available on Linux. Support may be added in a future update.
+</Note>
+
+<Tip>
+  For a list of media players compatible with Music Attenuation out of the box, refer to Music Presence's [list of supported media players](https://github.com/ungive/discord-music-presence/blob/master/documentation/supported-media-players.md).
+</Tip>
+
+---
+
+## Steam Deck Support
+
+Native Linux builds are provided and work on the Steam Deck out of the box. The Flatpak version can be installed directly and added as a non-Steam game via Desktop Mode.
+
+A few things to keep in mind when running on the Steam Deck:
+
+- Installation can be slow and may consume significant storage on the 64 GB model — providing game files from external storage such as a microSD card or a network share is recommended.
+- Performance improves significantly when the GPU clock is manually set to its maximum via the Gamescope per-game settings, even if the game appears to be CPU-bound.
+- Demanding sections such as Werehog combat and DLC stages may struggle to maintain the target frame rate, but overall performance is considered noticeably better than on the original hardware at default settings.
+
+<Note>
+  It is recommended to perform the initial installation in Desktop Mode, as the file picker may not always be available in Game Mode. See [Known Issues](/reference/known-issues#file-picker-unavailable-on-steam-deck-in-game-mode) for the workaround.
+</Note>
+
+---
+
+## Mod Support
+
+Unleashed Recompiled ships with a built-in mod loader compatible with [HedgeModManager](https://github.com/thesupersonic16/HedgeModManager). Mods use the same format as Sonic Generations mods, making a large existing library immediately compatible. Key details:
+
+- **HedgeModManager compatibility** — install, enable, and manage mods through the same tool used for other modern Sonic titles. Linux users should use the development build of [HMM 8](https://github.com/hedge-dev/HedgeModManager) for full Steam Deck support.
+- **Unleashed Mod Manager backwards compatibility** — mods originally created for Unleashed Mod Manager are supported for continuity, though this format is considered deprecated and should not be used for new mods.
+- **Xbox 360 file compatibility** — modded files targeting the Xbox 360 version of the game are compatible. Note that mods built against a version without the title update may require updates from their authors.
+- **Limitations** — mods that replace the game's main executable (`default.xex`) or its shaders are not supported.
+
+<Note>
+  Code modding is not yet available and is planned for a future update. In the meantime, some commonly requested codes have been embedded directly into the game and are accessible through HedgeModManager's Codes tab.
+</Note>
+
+---
+
+## Update Roadmap
+
+The following features are confirmed planned or actively in progress for future releases.
+
+### Action Remapping
+
+Full in-game remapping of controller button bindings, along with keyboard binding configuration, is planned. Until this feature ships, keyboard bindings can be edited manually in the `config.toml` configuration file.
+
+### More Linux Builds
+
+Non-Flatpak Linux builds will be made available once a method for creating the shortcuts required by HedgeModManager on Linux is implemented. In the meantime, these builds can be obtained through the repository's GitHub Actions panel or by building from source.
+
+### High Frame Rate Fixes
+
+Research into the game's internals is ongoing. Gameplay issues that manifest at high frame rates will continue to be fixed incrementally. The game is currently considered completable at high frame rates, but some optional content may require temporarily limiting to 60 FPS.
+
+### Code Modding
+
+Modifying the compiled game code in a recompilation is fundamentally different from patching a single fixed executable. Because anyone can fork and build Unleashed Recompiled, a consistent and maintainable code modding solution that works across all supported platforms is being researched. It will be introduced in a future update. Those interested in deep code modifications in the meantime are encouraged to work directly with a fork of the repository.

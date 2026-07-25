@@ -1,0 +1,87 @@
+---
+title: "Audio Settings Reference for Unleashed Recompiled"
+sidebarTitle: "Audio Settings"
+description: "Configure master, music, and effects volume, channel configuration, music attenuation, and battle theme in Unleashed Recompiled's config.toml."
+---
+
+The `[Audio]` section of `config.toml` controls all sound-related settings, including volume levels, speaker configuration, and a pair of quality-of-life options specific to this port. Two settings from the `[System]` section — voice language and subtitles — are also covered here because they are closely related to the audio experience.
+
+All audio settings are also accessible from the in-game **Options Menu** and can be changed without manually editing the file.
+
+---
+
+## Volume
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `MasterVolume` | float | `1.0` | Overall volume multiplier applied to all audio. Range: `0.0` (silent) to `1.0` (full volume). |
+| `MusicVolume` | float | `1.0` | Volume of background music tracks. Range: `0.0`–`1.0`. |
+| `EffectsVolume` | float | `1.0` | Volume of sound effects (footsteps, attacks, UI sounds, etc.). Range: `0.0`–`1.0`. |
+
+### Example
+
+```toml
+[Audio]
+MasterVolume = 1.0
+MusicVolume = 0.8
+EffectsVolume = 1.0
+```
+
+---
+
+## Channel Configuration
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `ChannelConfiguration` | enum | `Stereo` | Speaker layout. Valid values: `Stereo`, `Surround`. Set to `Surround` if you have a multi-channel speaker system or surround-capable headset. |
+
+---
+
+## Quality of Life
+
+### Music Attenuation
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `MusicAttenuation` | bool | `false` | Automatically lowers the game's background music when an external media player is active on your system — recreating a feature that was present in the original Xbox 360 version. |
+
+<Note>
+  `MusicAttenuation` uses the [Windows Media Control](https://learn.microsoft.com/en-us/uwp/api/windows.media.control) APIs provided by the Windows Runtime (WinRT) and is only available on **Windows 10 and Windows 11**. It is **not currently available on Linux**. Any application that registers media controls with Windows (such as Spotify, VLC with the Windows integration enabled, or browsers playing audio) will trigger attenuation. For a list of compatible players, refer to [Music Presence's supported media player list](https://github.com/ungive/discord-music-presence/blob/master/documentation/supported-media-players.md).
+</Note>
+
+### Battle Theme
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `BattleTheme` | bool | `true` | Plays the Werehog's dedicated battle music during combat encounters. Set to `false` to disable it and let the stage's background music continue uninterrupted. |
+
+<Tip>
+  Disabling `BattleTheme` is a popular choice — the battle music triggers frequently in Werehog stages and interrupts the ambient stage soundtrack. With it disabled, the stage background music plays continuously from start to finish.
+</Tip>
+
+---
+
+## Voice and Subtitles
+
+These settings live in the `[System]` section of `config.toml` but directly affect the audio and dialogue experience.
+
+| Setting | Section | Type | Default | Description |
+|---|---|---|---|---|
+| `VoiceLanguage` | `[System]` | enum | `English` | Language of in-game voice acting. Valid values: `English`, `Japanese`. Switching to `Japanese` also changes the title screen logo to its original Japanese counterpart. |
+| `Subtitles` | `[System]` | bool | `true` | Display subtitles during cutscenes and spoken dialogue. |
+
+### Example
+
+```toml
+[System]
+VoiceLanguage = "Japanese"
+Subtitles = true
+
+[Audio]
+MasterVolume = 1.0
+MusicVolume = 0.8
+EffectsVolume = 1.0
+ChannelConfiguration = "Stereo"
+MusicAttenuation = false
+BattleTheme = false
+```

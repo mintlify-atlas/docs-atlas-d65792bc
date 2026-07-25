@@ -1,0 +1,82 @@
+---
+title: "Install Mods for Unleashed Recompiled with Hedge Mod Manager"
+sidebarTitle: "Installing Mods"
+description: "Use Hedge Mod Manager to install, enable, and manage mods for Unleashed Recompiled on Windows and Linux."
+---
+
+Mods for Unleashed Recompiled are installed and managed through **Hedge Mod Manager (HMM)** — the same tool used across many other Sonic titles. This guide walks you through getting HMM set up and installing your first mod.
+
+## Choosing the Right Version of HMM
+
+| Platform | Recommended Version |
+|---|---|
+| Windows | [Hedge Mod Manager](https://github.com/thesupersonic16/HedgeModManager) (stable) |
+| Linux / Steam Deck | [HMM 8](https://github.com/hedge-dev/HedgeModManager) (development version) |
+
+The development version of HMM 8 is designed to work out of the box on Linux and Steam Deck. Download the version that matches your platform before continuing.
+
+## Installing Mods
+
+<Steps>
+  <Step title="Download and install Hedge Mod Manager">
+    Grab the latest release of [Hedge Mod Manager](https://github.com/thesupersonic16/HedgeModManager) (Windows) or [HMM 8](https://github.com/hedge-dev/HedgeModManager) (Linux / Steam Deck) from the respective GitHub releases page. Run the installer or extract the archive to a location of your choice.
+  </Step>
+
+  <Step title="Point HMM at your Unleashed Recompiled installation">
+    When you first launch HMM it will ask you to locate the game. Browse to the directory where you extracted Unleashed Recompiled (the folder containing the game executable). HMM will detect the game and configure itself automatically.
+  </Step>
+
+  <Step title="Download a mod">
+    Find a mod you want to install — most mods are distributed as `.zip` archives containing either a `mod.ini` file at the root or a folder that itself contains `mod.ini`. Download the archive but **do not extract it manually**.
+  </Step>
+
+  <Step title="Add the mod through HMM">
+    In Hedge Mod Manager, click **Add Mod** (or drag the `.zip` directly onto the HMM window). HMM will extract and register the mod for you.
+  </Step>
+
+  <Step title="Enable the mod and apply changes">
+    Check the box next to the mod in HMM's mod list to enable it. If you are enabling multiple mods, drag them into the order you want (mods higher in the list take priority). Click **Save & Play** or **Apply** to confirm.
+  </Step>
+
+  <Step title="Launch the game through HMM">
+    Always start Unleashed Recompiled through the **Play** button in Hedge Mod Manager so that the mod loader can inject your enabled mods before the game starts. Launching the executable directly will bypass the mod loader.
+  </Step>
+</Steps>
+
+<Warning>
+  Do **not** install mods by copying files directly into the game's installation directory. Modifying game data manually is unsupported and may break your installation.
+</Warning>
+
+## Using the Codes Tab
+
+Unleashed Recompiled embeds a set of built-in gameplay codes that can be toggled without any extra files. Open the **Codes** tab in Hedge Mod Manager to browse and enable them. These are especially useful while code modding (which allows arbitrary runtime patches) is still under development.
+
+## Save File Redirection
+
+When Hedge Mod Manager is active, it redirects your save files to an `mlsave` folder instead of the default `save` folder inside the game's configuration directory:
+
+- **Windows:** `%APPDATA%\UnleashedRecomp\mlsave\`
+- **Linux:** `~/.config/UnleashedRecomp/mlsave\`
+
+This keeps your modded saves separate from your vanilla saves and means your original progress is never overwritten. If you stop using HMM, the game falls back to reading from the standard `save` folder automatically.
+
+## Mod Format Basics
+
+Unleashed Recompiled uses the same mod format as **Sonic Generations**. A valid mod contains at minimum:
+
+```
+my-mod/
+├── mod.ini        ← Metadata (name, author, version, etc.)
+└── files/         ← Replacement game files mirroring the game's directory structure
+    └── ...
+```
+
+HMM reads `mod.ini` to display the mod's name and description and uses the `files` folder to overlay replacement assets on top of the base game at launch.
+
+## Portable Installation Note
+
+If you have created a `portable.txt` file in your Unleashed Recompiled installation directory to keep saves and configuration next to the executable, HMM's save-file redirection still works — the `mlsave` folder will be created alongside the executable rather than in the default OS configuration directory.
+
+<Tip>
+  If a mod behaves unexpectedly — wrong textures, crashes on a specific stage, or features that don't match the description — it may have been built targeting the version of the game **without the title update**. Check the mod's page or contact the author to see if an update is available that targets the title-update version used by Unleashed Recompiled.
+</Tip>

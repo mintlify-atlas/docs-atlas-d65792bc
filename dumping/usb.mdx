@@ -1,0 +1,171 @@
+---
+title: "Dump Sonic Unleashed from Xbox 360 via USB"
+sidebarTitle: "USB Drive"
+description: "Step-by-step guide to copy Sonic Unleashed to a USB storage device and transfer the game files to your PC using Velocity."
+---
+
+This guide covers how to dump Sonic Unleashed using a USB storage device. You will configure the USB drive as an Xbox 360 system drive, install the game to it, then connect it to your PC and use Velocity to copy the files. If you would rather use the Xbox 360 Hard Drive Transfer Cable method, see the [Hard Drive guide](/dumping/hard-drive) instead.
+
+## Prerequisites
+
+Before you begin, make sure you have all of the following:
+
+- Xbox 360 (no modifications required)
+- USB Storage Device (16 GB minimum)
+- Sonic Unleashed for Xbox 360 (US or EU — **JP is not supported**)
+  - Retail disc or digital copy (available on the [Xbox Store](https://www.xbox.com/en-US/games/store/sonic-unleashed/c098fgnmts8f))
+  - Title Update required
+  - Adventure Pack DLC (optional but highly recommended — includes high-quality lighting for the entire game)
+- [7-Zip](https://7-zip.org/download.html) — for extracting Velocity
+- [Velocity (Gualdimar's fork)](https://github.com/Gualdimar/Velocity/releases/download/xex%2Biso-branch/Velocity-XEXISO.rar)
+
+<Warning>
+  Some Xbox 360 S|E consoles come with **4 GB of internal flash storage**. These models are **not compatible** with this method because you cannot configure a USB storage device as a system drive when internal flash storage is present.
+
+  An exception exists for models with the **Trinity motherboard**, where the flash storage module sits on a separate daughterboard that can be disconnected — though this is not recommended for inexperienced users. On other affected models the module is soldered directly onto the motherboard and cannot be removed.
+
+  If your console falls into this category, use the [Hard Drive guide](/dumping/hard-drive) instead.
+</Warning>
+
+## Instructions
+
+<Steps>
+  <Step title="Remove the hard drive from the console">
+    Turn off your Xbox 360 and remove the hard drive from your console.
+
+    <Tip>
+      If you are unsure how to remove the hard drive from your specific console model, consult one of the following iFixit guides:
+      - [Xbox 360](https://www.ifixit.com/Guide/Xbox+360+Hard+Drive+Replacement/3326)
+      - [Xbox 360 S](https://www.ifixit.com/Guide/Xbox+360+S+Hard+Drive+Replacement/3184)
+      - [Xbox 360 E](https://www.ifixit.com/Guide/Xbox+360+E+Hard+Drive+Replacement/22179)
+    </Tip>
+  </Step>
+
+  <Step title="Connect the USB drive and power on the console">
+    Connect your USB storage device to the console and turn it on.
+  </Step>
+
+  <Step title="Open Storage settings">
+    At the Xbox Dashboard, navigate to the **Settings** tab, select **System**, then select **Storage**.
+  </Step>
+
+  <Step title="Open Device Options for the USB drive">
+    On the **Storage Devices** screen, select your USB storage device and press **Y** to open **Device Options**.
+  </Step>
+
+  <Step title="Configure the USB drive as a system drive">
+    Select **Make System Drive**, then **Configure Now**, and confirm by selecting **Yes**.
+
+    <Warning>
+      This operation will **erase all existing content** on the USB storage device. Make sure you have backed up anything important before continuing. **This action is irreversible!**
+    </Warning>
+  </Step>
+
+  <Step title="Reconnect the hard drive">
+    After the USB storage device has been successfully configured as a system drive, turn off your console and reconnect the hard drive.
+  </Step>
+
+  <Step title="Move your Xbox Live profile to the USB drive">
+    Turn on your console, then navigate to the **Settings** tab, select **System**, then **Storage**. Select your original hard drive, navigate to the **Profiles** directory, and move an Xbox Live profile that owns the game and its DLC to the USB storage device.
+  </Step>
+
+  <Step title="Remove the hard drive and sign in">
+    Turn off the console and remove the hard drive. Turn the console back on, **install any system update if prompted**, then sign in to the Xbox Live profile you just moved.
+  </Step>
+
+  <Step title="Install the game from disc">
+    Insert your retail disc copy of Sonic Unleashed into the Xbox 360 disc tray.
+
+    <Note>
+      If you have a **digital copy** of Sonic Unleashed, skip ahead to **Step 14** to download the game and DLC directly from your Download History.
+    </Note>
+  </Step>
+
+  <Step title="Open Game Details">
+    At the Xbox Dashboard, go to the disc tile under the **Home** tab and press **X** to view **Game Details**.
+  </Step>
+
+  <Step title="Install to the USB drive">
+    Under the **Overview** tab, select the **Install** tile and choose to install the game to the USB drive.
+  </Step>
+
+  <Step title="Download the game and DLC from Download History">
+    Return to the Xbox Dashboard and navigate to the **Settings** tab, then select **Account**, then **Download History**. Look for Sonic Unleashed (if you own it digitally) and all of its Adventure Pack DLC. Select each item and choose **Download Again**. Repeat this for every piece of DLC you own.
+
+    <Tip>
+      If the game or its DLC do not appear in **Download History**, make sure you have moved the account that owns them to the USB drive and that you are currently signed into it.
+    </Tip>
+  </Step>
+
+  <Step title="Confirm the Title Update is installed">
+    Once everything has finished downloading, launch the game to verify that the Title Update is installed. If it is not, you will be prompted to install it at this point.
+
+    <Tip>
+      If the DLC is functioning correctly, the Title Update is already installed.
+
+      To confirm DLC is working, you should see a message in yellow text that reads **"You can play downloaded action stages [...]"** when loading a save file. Alternatively, look for a DLC globe indicator on relevant countries on the world map.
+
+      If you are still unsure, you can force the Title Update to reinstall by clearing the system cache (found in **Storage → Device Options**) and then relaunching the game while connected to Xbox Live.
+    </Tip>
+  </Step>
+
+  <Step title="Connect the USB drive to your PC">
+    Turn off the console and connect the USB storage device to your PC.
+  </Step>
+
+  <Step title="Extract Velocity">
+    Download [the latest release of Velocity](https://github.com/Gualdimar/Velocity/releases/download/xex%2Biso-branch/Velocity-XEXISO.rar). Open the `.rar` file using [7-Zip](https://7-zip.org/download.html) and extract its contents to a convenient location on your PC.
+  </Step>
+
+  <Step title="Create a destination folder">
+    Create a new folder somewhere convenient on your PC. This is where you will store the copied game files.
+  </Step>
+
+  <Step title="Run Velocity as Administrator (Windows only)">
+    Right-click `Velocity.exe` and select **Properties**. Under the **Compatibility** tab, tick **Run this program as an administrator**, then click **OK**. This is required for Velocity to detect and read the USB storage device.
+
+    <Note>
+      If you are on **Linux**, skip this step and launch Velocity directly.
+    </Note>
+  </Step>
+
+  <Step title="Open the Device Content Viewer">
+    Launch `Velocity.exe`. When it starts, you should see a **Device Detected** prompt asking if you would like to open the **Device Content Viewer**. Click **Yes**.
+  </Step>
+
+  <Step title="Navigate to the game and DLC content">
+    In the Device Content Viewer you will see a tree view of your storage device's contents. Expand the following nodes:
+    - `/Shared Items/Games/`
+    - `/Shared Items/DLC/` *(only if you have the DLC installed)*
+  </Step>
+
+  <Step title="Select all content to copy">
+    Hold the **Ctrl** key and click **SONIC UNLEASHED** under the `Games` node. If you have the DLC installed, also click each **Adventure Pack** under the `DLC` node. Make sure all desired items are selected before continuing.
+  </Step>
+
+  <Step title="Copy the game files to your PC">
+    Right-click any of the selected items and choose **Copy Selected to Local Disk**. Navigate to the folder you created in Step 17 and select it. Velocity will now copy all selected content to your PC.
+  </Step>
+
+  <Step title="Open the Raw Device Viewer">
+    Once the transfer is complete, close the **Device Content Viewer** window. In the menu bar, navigate to **Tools → Device Tools → Raw Device Viewer**.
+  </Step>
+
+  <Step title="Find the Title Update file">
+    Navigate to `/System Cache/Cache/` and click the **Name** column header to sort by name. Look for a file whose name begins with `TU_19KA20I` — this is the Title Update, which is required for installation.
+
+    <Tip>
+      To verify the file is correct, double-click it to open it in **Package Viewer**. Confirm that `default.xexp` is present inside, along with a folder named `work`. Once verified, close the Package Viewer window and continue.
+    </Tip>
+  </Step>
+
+  <Step title="Copy the Title Update to your PC">
+    Right-click the `TU_19KA20I` file and select **Copy Selected to Local Disk**. Navigate to the folder you created in Step 17 and select it. Velocity will copy the Title Update to your PC.
+  </Step>
+
+  <Step title="Done — all files are ready">
+    Once the transfer is complete, you have all the files needed to install Unleashed Recompiled. You can now reconnect your hard drive to the console and restore your Xbox Live profile from the USB storage device if desired.
+  </Step>
+</Steps>
+
+Now that you have all of the necessary game files, you are ready to proceed with the installation. See [Installing Unleashed Recompiled](/installation/installing) for the next steps.

@@ -1,0 +1,115 @@
+---
+title: "Video Settings Reference for Unleashed Recompiled"
+sidebarTitle: "Video Settings"
+description: "All video and graphics settings in config.toml for Unleashed Recompiled: resolution, anti-aliasing, shadows, frame rate, and rendering API."
+---
+
+The `[Video]` section of `config.toml` controls every aspect of how Unleashed Recompiled renders and displays the game. The majority of these settings are accessible from the in-game **Options Menu**, but a few — most notably `GraphicsDevice` and `GraphicsAPI` — must be set by editing `config.toml` directly. The settings below are listed using their exact TOML key names.
+
+<Tip>
+  Press **F1** in-game to open the performance overlay. It shows which GPU is currently active, along with frame time graphs and other diagnostics — useful when troubleshooting performance or verifying a `GraphicsDevice` override.
+</Tip>
+
+---
+
+## Display
+
+Settings that control the window, monitor, and on-screen presentation.
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `GraphicsDevice` | string | `""` (empty) | Override the GPU used by the game. The value must be an **exact match** of the device name shown in the F1 performance overlay. Leave empty to let the driver select automatically. |
+| `GraphicsAPI` | enum | `Auto` | Rendering backend to use. Valid values: `Auto`, `D3D12` (Windows only), `Vulkan`. |
+| `WindowWidth` | integer | `1280` | Width of the game window in pixels when not fullscreen. |
+| `WindowHeight` | integer | `720` | Height of the game window in pixels when not fullscreen. |
+| `WindowSize` | integer | `-1` | Preset window size index used by the Options Menu. Set to `-1` when width/height are controlled manually. |
+| `WindowState` | enum | `Normal` | Window state. Valid values: `Normal`, `Maximised` (also accepts `Maximized`). |
+| `Monitor` | integer | `0` | Zero-based index of the monitor to use in fullscreen mode. |
+| `Fullscreen` | bool | `true` | Launch the game in fullscreen mode. |
+| `AspectRatio` | enum | `Auto` | Override the rendering aspect ratio. Valid values: `Auto`, `16:9`, `4:3`, `Original 4:3`. Use `Auto` to match your display. Ultrawide ratios wider than 16:9 are handled automatically when `Auto` is selected. |
+| `Brightness` | float | `0.5` | Screen brightness, ranging from `0.0` (darkest) to `1.0` (brightest). |
+| `CutsceneAspectRatio` | enum | `Original` | Whether cutscenes are letterboxed to their original aspect ratio. Valid values: `Original`, `Unlocked`. |
+| `UIAlignmentMode` | enum | `Edge` | Controls where UI elements anchor on ultrawide displays. `Edge` aligns UI to the screen edges; `Centre` (also accepts `Center`) constrains it to the 16:9 safe area. |
+| `XboxColorCorrection` | bool | `false` | Apply the warm color-correction filter present in the original Xbox 360 version. Disable for more vibrant colors (matching the PS3 version, which is the intended look). |
+
+<Note>
+  By default, cutscenes are locked to their original aspect ratio to prevent visual issues in wider formats, as the game was not designed with ultrawide cutscene presentation in mind. Enable `Unlocked` only if you do not mind potential presentation oddities.
+</Note>
+
+---
+
+## Frame Rate
+
+Settings that govern timing, latency, and the frame rate target.
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `FPS` | integer | `60` | Target frame rate cap. Accepted range: `15`–`241`. Set to `241` for an effectively uncapped frame rate. |
+| `VSync` | bool | `true` | Synchronize frame presentation with the display refresh rate to eliminate tearing. |
+| `TripleBuffering` | enum | `Auto` | Triple buffering mode. Valid values: `Auto`, `On`, `Off`. `Auto` lets the renderer decide based on the current VSync and API configuration. |
+| `MaxFrameLatency` | integer | `2` | Maximum number of frames the CPU is allowed to run ahead of the GPU. Lower values reduce input latency at the cost of potential performance impact. |
+| `ShowFPS` | bool | `false` | Display a small frame rate counter in the corner of the screen. |
+
+<Warning>
+  Using **external frame rate limiters** (such as RTSS or GPU driver caps) or performance overlays may degrade performance or introduce unintended side effects. Use the built-in `FPS` setting instead.
+</Warning>
+
+---
+
+## Rendering Quality
+
+Settings that affect visual fidelity and GPU workload. Lowering these values is the most effective way to improve performance.
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `ResolutionScale` | float | `1.0` | Internal rendering resolution multiplier relative to the window size. `1.0` = native, `0.5` = half resolution, `2.0` = double (super-sampling). |
+| `AntiAliasing` | enum | `4x MSAA` | Multisample Anti-Aliasing level. Valid values: `None`, `2x MSAA`, `4x MSAA`, `8x MSAA`. |
+| `TransparencyAntiAliasing` | bool | `true` | Enable Alpha-to-Coverage anti-aliasing on transparent textures with hard edges (e.g. foliage, chain-link fences). |
+| `AnisotropicFiltering` | integer | `16` | Anisotropic texture filtering level. Typical values: `1` (off), `2`, `4`, `8`, `16`. |
+| `ShadowResolution` | enum | `4096` | Shadow map resolution. Valid values: `Original`, `512`, `1024`, `2048`, `4096`, `8192`. Higher values produce sharper shadows but require significantly more GPU memory. `Original` uses the resolution from the Xbox 360 version. |
+| `GITextureFiltering` | enum | `Bicubic` | Filtering mode for Global Illumination (GI) baked light textures. `Bicubic` greatly improves the visual quality of GI compared to `Bilinear`. |
+| `DepthOfFieldQuality` | enum | `Auto` | Quality of the Depth of Field effect. Valid values: `Auto`, `Low`, `Medium`, `High`, `Ultra`. `Auto` selects a quality tier based on the current resolution scale. |
+| `MotionBlur` | enum | `Original` | Motion blur mode. `Off` disables it entirely. `Original` reproduces the Xbox 360 look. `Enhanced` uses more samples for a smoother blur at higher resolutions. |
+
+### Example: High-Quality Configuration
+
+```toml
+[Video]
+ResolutionScale = 1.5
+AntiAliasing = "4x MSAA"
+TransparencyAntiAliasing = true
+AnisotropicFiltering = 16
+ShadowResolution = "4096"
+GITextureFiltering = "Bicubic"
+DepthOfFieldQuality = "Auto"
+MotionBlur = "Enhanced"
+FPS = 60
+VSync = true
+```
+
+### Example: Performance Configuration
+
+```toml
+[Video]
+ResolutionScale = 0.75
+AntiAliasing = "None"
+TransparencyAntiAliasing = false
+AnisotropicFiltering = 4
+ShadowResolution = "1024"
+GITextureFiltering = "Bilinear"
+DepthOfFieldQuality = "Low"
+MotionBlur = "Off"
+FPS = 60
+VSync = true
+```
+
+### Overriding the Graphics Device
+
+If your system has multiple GPUs (common on gaming laptops with an integrated and a dedicated GPU) and the game is not selecting the correct one automatically, you can force a specific device:
+
+```toml
+[Video]
+GraphicsDevice = "NVIDIA GeForce RTX 4070"
+```
+
+The name must be an **exact match**. Open the F1 overlay while the game is running to see the full name of the currently active device, then copy it into this field, close the game, and relaunch.

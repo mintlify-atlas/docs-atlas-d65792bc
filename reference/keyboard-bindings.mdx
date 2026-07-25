@@ -1,0 +1,75 @@
+---
+title: "Default Keyboard Bindings for Unleashed Recompiled"
+sidebarTitle: "Keyboard Bindings"
+description: "The complete default keyboard layout for Unleashed Recompiled and how to change bindings in config.toml using SDL scancode names."
+---
+
+While a controller is strongly recommended for the best experience, Unleashed Recompiled includes full keyboard support with a set of default bindings. The layout below is based on the keyboard scheme used by Devil's Details for Sonic Generations (2011).
+
+## Default Bindings
+
+| Controller Button | Default Key |
+|---|---|
+| A (Cross) | `S` |
+| B (Circle) | `D` |
+| X (Square) | `A` |
+| Y (Triangle) | `W` |
+| D-Pad Up | Unbound |
+| D-Pad Down | Unbound |
+| D-Pad Left | Unbound |
+| D-Pad Right | Unbound |
+| Start | `Return` |
+| Back (Select) | `Backspace` |
+| Left Trigger (L2) | `1` |
+| Right Trigger (R2) | `3` |
+| Left Bumper (L1) | `Q` |
+| Right Bumper (R1) | `E` |
+| Left Stick Up | `Up Arrow` |
+| Left Stick Down | `Down Arrow` |
+| Left Stick Left | `Left Arrow` |
+| Left Stick Right | `Right Arrow` |
+| Right Stick Up | Unbound |
+| Right Stick Down | Unbound |
+| Right Stick Left | Unbound |
+| Right Stick Right | Unbound |
+
+<Note>
+  The default layout is based on Devil's Details' keyboard layout for Sonic Generations (2011).
+</Note>
+
+## Changing the Bindings
+
+Keyboard bindings are configured in the `[Bindings]` section of `config.toml`. The file is located at:
+
+| Platform | Path |
+|----------|------|
+| Windows  | `%APPDATA%\UnleashedRecomp\config.toml` |
+| Linux    | `~/.config/UnleashedRecomp/config.toml` |
+
+Each entry maps a controller action (e.g. `Key_A`) to an SDL scancode name. Below is an example `[Bindings]` block reflecting the defaults shown in the table above:
+
+```toml
+[Bindings]
+Key_A = "S"
+Key_B = "D"
+Key_X = "A"
+Key_Y = "W"
+Key_Start = "Return"
+Key_Back = "Backspace"
+Key_LeftTrigger = "1"
+Key_RightTrigger = "3"
+Key_LeftBumper = "Q"
+Key_RightBumper = "E"
+Key_LeftStickUp = "Up"
+Key_LeftStickDown = "Down"
+Key_LeftStickLeft = "Left"
+Key_LeftStickRight = "Right"
+```
+
+**Valid key names** are taken from the left column of the [`SDL_Scancode` enum](https://github.com/hedge-dev/UnleashedRecomp/blob/main/UnleashedRecomp/user/config.cpp#L40). Strip the `SDL_SCANCODE_` prefix and use the remainder as the value — for example, `SDL_SCANCODE_S` becomes `"S"`, and `SDL_SCANCODE_RETURN` becomes `"Return"`.
+
+To leave a button unbound, set its value to `"Unknown"` or omit the line entirely.
+
+<Tip>
+  Using a controller is strongly recommended for the best play experience. In-game Action Remapping (full button rebinding without editing files) is planned for a future update.
+</Tip>

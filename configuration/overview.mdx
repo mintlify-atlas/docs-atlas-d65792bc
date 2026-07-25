@@ -1,0 +1,65 @@
+---
+title: "Configure Unleashed Recompiled with config.toml"
+sidebarTitle: "Overview"
+description: "Unleashed Recompiled stores all settings in config.toml. Learn where to find it, how to edit it, and what sections it contains."
+---
+
+Unleashed Recompiled stores every setting — from resolution and frame rate to keyboard bindings and controller icons — in a single plain-text file called `config.toml`. Most options can be changed without ever touching this file because the in-game **Options Menu** exposes them directly, but knowing where the file lives and how it is structured is useful when you need to set advanced options like a specific `GraphicsDevice` override or custom keyboard bindings.
+
+## File Location
+
+The configuration file is placed in a platform-specific directory by default:
+
+| Platform | Path |
+|---|---|
+| Windows | `%APPDATA%\UnleashedRecomp\config.toml` |
+| Linux | `~/.config/UnleashedRecomp/config.toml` |
+| Flatpak | `~/.var/app/io.github.hedge_dev.unleashedrecomp/data/config.toml` |
+
+### Portable Mode
+
+If you place an empty file named `portable.txt` in the same directory as the Unleashed Recompiled executable, the game will ignore the locations above and instead store `config.toml` (as well as save data) right next to the executable. This is useful for self-contained installations on external drives.
+
+<Note>
+  You are directly responsible for the safekeeping of your save data and configuration when using portable mode.
+</Note>
+
+## Editing config.toml
+
+The in-game Options Menu is the recommended way to change settings — it applies changes immediately, validates values, and requires no manual editing. However, there are a handful of settings that are only configurable by directly editing `config.toml`:
+
+- **`GraphicsDevice`** — override which GPU the game uses, identified by its exact name as shown in the F1 performance overlay.
+- **`GraphicsAPI`** — force a specific rendering backend (`Auto`, `D3D12`, or `Vulkan`).
+- **`[Bindings]` section** — set custom keyboard key assignments for every controller button.
+
+`config.toml` is a standard [TOML](https://toml.io/) file. Open it in any text editor (Notepad, VS Code, etc.), make your changes, save, and relaunch the game.
+
+<Note>
+  The game must be **fully closed** before you edit `config.toml`. Any changes made while the game is running will be overwritten when it exits.
+</Note>
+
+## Sections
+
+`config.toml` is divided into the following sections:
+
+| Section | Description |
+|---|---|
+| `[System]` | Language, subtitles, hint rings, control tutorials, achievement notifications, and the day/night transition style. |
+| `[Input]` | Camera rotation direction, controller vibration, background input, and controller icon style. |
+| `[Bindings]` | Keyboard key assignments for every virtual controller button. |
+| `[Audio]` | Master, music, and effects volume; channel configuration; music attenuation; battle theme toggle. |
+| `[Video]` | All graphics and display settings — resolution, frame rate, anti-aliasing, shadows, rendering API, and more. |
+
+## Quick Navigation
+
+<CardGroup cols={2}>
+  <Card title="Video Settings" icon="display" href="/configuration/video">
+    Resolution, frame rate, anti-aliasing, shadows, rendering API, and all other graphics options.
+  </Card>
+  <Card title="Audio Settings" icon="volume-high" href="/configuration/audio">
+    Volume levels, channel configuration, music attenuation, and the battle theme toggle.
+  </Card>
+  <Card title="Input Settings" icon="gamepad" href="/configuration/input">
+    Camera rotation, vibration, controller icons, and full keyboard binding reference.
+  </Card>
+</CardGroup>

@@ -1,0 +1,80 @@
+---
+title: "Run Unleashed Recompiled on Steam Deck"
+sidebarTitle: "Steam Deck"
+description: "Install and run Unleashed Recompiled on Steam Deck using the Flatpak build, with tips for performance and the installation process."
+---
+
+Unleashed Recompiled offers native Linux support and runs on Steam Deck out of the box. The Flatpak build is the recommended method for Steam Deck users and can be installed directly and added as a non-Steam game via Desktop Mode.
+
+## Installing via Flatpak
+
+The Flatpak build (`io.github.hedge_dev.unleashedrecomp`) is the recommended way to run Unleashed Recompiled on Steam Deck. Install it from Desktop Mode and add it as a non-Steam game to make it accessible from Gaming Mode.
+
+<Note>
+  It is recommended to complete the installation process while in **Desktop Mode**. The file picker used during setup [may not be available in Game Mode](#file-picker-in-game-mode) at all times. Booting into Desktop Mode at least once will enable the file picker to work when you switch back to Game Mode.
+</Note>
+
+<Steps>
+  <Step title="Switch to Desktop Mode">
+    From the Steam Deck's power menu, select **Switch to Desktop** to enter Desktop Mode.
+  </Step>
+
+  <Step title="Install the Flatpak">
+    Download and install the Unleashed Recompiled Flatpak (`io.github.hedge_dev.unleashedrecomp`) from the [official GitHub Releases page](https://github.com/hedge-dev/UnleashedRecomp/releases/latest).
+  </Step>
+
+  <Step title="Prepare your game files">
+    Before launching, make sure your dumped Sonic Unleashed game files are accessible. See the [storage warning](#storage-considerations) below for advice on where to place them.
+  </Step>
+
+  <Step title="Run the installer">
+    Launch the application. The built-in installation wizard will guide you through providing your game files. Complete the full installation process while in Desktop Mode to avoid file picker issues.
+  </Step>
+
+  <Step title="Add as a non-Steam game">
+    Once installation is complete, add Unleashed Recompiled as a non-Steam game in the Steam client so it appears in your Gaming Mode library.
+  </Step>
+</Steps>
+
+## Storage Considerations
+
+<Warning>
+  Installing Sonic Unleashed requires up to **10 GiB** of storage (6 GiB without DLC). On the **64 GB Steam Deck model**, this can easily consume a significant portion of the internal storage. It is strongly recommended to provide your game files via **external storage** — such as a microSD card or a network share — during the installation process to avoid running out of space.
+</Warning>
+
+## Game Data Location
+
+The Flatpak build stores all game data in a sandboxed directory. This is the only path the Flatpak build will recognize as valid:
+
+```
+~/.var/app/io.github.hedge_dev.unleashedrecomp/data
+```
+
+<Tip>
+  If you ever decide to switch from the Flatpak build to a native Linux build, you can **reuse this data directory** — no reinstallation required. You can also move the data to another location by creating a symlink from the above path to your preferred destination.
+</Tip>
+
+## File Picker in Game Mode
+
+Due to restrictions in how the Steam Deck's desktop environment works while in Game Mode, the file picker required during installation may not be available.
+
+**Workaround:** Boot into Desktop Mode at least once before attempting to use the file picker. After that single Desktop Mode boot, the file picker will become available when you return to Game Mode. If you want to avoid the issue entirely, you can complete the full installation process while in Desktop Mode.
+
+## Performance Tips
+
+Unleashed Recompiled performs noticeably better on Steam Deck than the game did on its original hardware when using default settings, but demanding sections — such as Werehog combat or DLC stages — may make maintaining the target frame rate difficult.
+
+Keep the following in mind to get the best experience:
+
+- **Manually set the GPU clock to its maximum value** via Gamescope. Performance improves significantly with this change, even though the game is primarily CPU-bottlenecked.
+- The game is **CPU-bottlenecked** on Steam Deck, meaning GPU upgrades have less impact than CPU single-thread speed.
+- If you encounter performance issues, try lowering **Resolution Scale**, **Anti-Aliasing**, or **Shadow Resolution** from the in-game options menu.
+- **Overall performance is considered noticeably better than on the original Xbox 360 hardware** at default settings.
+
+<Note>
+  Linux has an unexpected performance advantage in CPU-bound scenarios compared to Windows, potentially due to differences in how thread synchronization is handled between the two schedulers. This benefits Steam Deck users running the native Linux or Flatpak build.
+</Note>
+
+## Mod Support
+
+The Flatpak build is compatible with the development version of [HMM 8](https://github.com/hedge-dev/HedgeModManager), which provides Linux support and should work out of the box on Steam Deck. This allows you to install and manage mods for Unleashed Recompiled directly on the Deck.

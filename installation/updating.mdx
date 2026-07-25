@@ -1,0 +1,58 @@
+---
+title: "Update Unleashed Recompiled Without Losing Save Data"
+sidebarTitle: "Updating"
+description: "Copy new release files over your existing Unleashed Recompiled installation to update without losing save data or game files."
+---
+
+Updating Unleashed Recompiled is a straightforward process — simply copy the new release files over your existing installation. Your save data, configuration, and installed game files are stored separately from the executable and will never be affected by an update.
+
+## How to Update
+
+<Steps>
+  <Step title="Download the latest release">
+    Download the latest version of Unleashed Recompiled from the [official GitHub Releases page](https://github.com/hedge-dev/UnleashedRecomp/releases/latest).
+
+    <Warning>
+      **Only download releases from the official GitHub Releases page.** Unleashed Recompiled is never distributed through Discord servers, third-party websites, or third-party update tools. Builds obtained from other sources may be unsafe or out of date.
+    </Warning>
+  </Step>
+
+  <Step title="Extract and replace files">
+    Extract the downloaded archive and copy its contents directly over your existing installation folder, replacing files when prompted. No other steps are required.
+  </Step>
+
+  <Step title="Launch the game">
+    Run the updated executable. Your save data and settings will be exactly as you left them.
+  </Step>
+</Steps>
+
+## What Updates Do and Don't Change
+
+- **Save data** — Never affected by updates. It is stored in a separate system directory (or within your installation folder if you use portable mode).
+- **Configuration** — Your `config.toml` settings are preserved across updates.
+- **Game files** — The installed game data never changes between versions of Unleashed Recompiled. You will **never need to reinstall** the game when updating.
+
+## Save Data Locations
+
+Your save data and configuration file are stored at the following paths, depending on your platform and setup:
+
+| Platform | Path |
+|---|---|
+| Windows | `%APPDATA%\UnleashedRecomp\` |
+| Linux (native) | `~/.config/UnleashedRecomp/` |
+| Linux (Flatpak) | `~/.var/app/io.github.hedge_dev.unleashedrecomp/data` |
+
+Inside these directories you will find:
+
+- `save/` — your save files (or `mlsave/` if Hedge Mod Manager's save file redirection is enabled)
+- `config.toml` — your configuration file
+
+## Portable Mode
+
+If you have created a `portable.txt` file in your installation directory, the game runs in **portable mode** — all save data and configuration are stored inside the installation folder itself rather than the system-level paths listed above. When updating in portable mode, simply copy the new release files into the same folder as usual; your data will remain untouched alongside the executable.
+
+See the [Installing](/installation/installing) page for more details on enabling portable mode.
+
+<Tip>
+  Before updating, consider backing up your save data folder by copying it to a safe location. While updates do not modify save data, keeping a backup is always a good habit — especially before major version changes.
+</Tip>

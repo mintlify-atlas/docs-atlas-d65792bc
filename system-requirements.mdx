@@ -1,0 +1,66 @@
+---
+title: "Minimum System Requirements for Unleashed Recompiled"
+sidebarTitle: "System Requirements"
+description: "Check the CPU, GPU, RAM, OS, and storage requirements before installing Unleashed Recompiled on Windows or Linux."
+---
+
+This page lists the minimum hardware and software requirements needed to run Unleashed Recompiled. Because the port uses static recompilation rather than emulation, it targets modern PC hardware directly — meaning your system must meet specific CPU instruction set and graphics API requirements that differ from a typical emulator setup.
+
+## Minimum Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| **CPU** | AVX instruction set support required |
+| **GPU** | Direct3D 12.0 (Shader Model 6) **or** Vulkan 1.2 |
+| **RAM** | 8 GB minimum |
+| **OS** | Windows 10 (version 1909) or a modern Linux distribution |
+| **Storage** | 6 GiB (without DLC) · 10 GiB (with DLC) |
+
+## Component Details
+
+### CPU
+
+The recompiled code makes use of the **AVX (Advanced Vector Extensions)** instruction set. Your processor must support AVX — the following represent the oldest CPU generations that qualify:
+
+- **Intel:** Sandy Bridge (Intel Core 2nd Generation, e.g. Core i5-2500)
+- **AMD:** Bulldozer (AMD FX series, e.g. FX-8150)
+
+Most CPUs released after 2012 include AVX support. If you are unsure whether your processor qualifies, check your CPU's specification sheet.
+
+### GPU
+
+Your graphics card must support **Direct3D 12.0 with Shader Model 6** or **Vulkan 1.2**. The following represent the oldest GPU models known to meet this requirement:
+
+| Vendor | Minimum Model |
+|--------|---------------|
+| **NVIDIA** | GeForce GT 630 (Kepler architecture) |
+| **AMD** | Radeon HD 7750 (2012 release — not the RX 7000 series) |
+| **Intel** | HD Graphics 510 (Skylake, 6th Generation Core) |
+
+<Tip>
+  Press **F1** while in-game to open the performance overlay. This displays real-time performance graphs alongside the name of the graphics device currently in use — useful for confirming that the game has selected your dedicated GPU rather than an integrated adapter, and for diagnosing performance issues.
+</Tip>
+
+### RAM
+
+A minimum of **8 GB of system RAM** is required. No recommended value above this minimum has been specified, but more RAM will generally improve stability at higher settings.
+
+### Operating System
+
+- **Windows:** Windows 10 version 1909 or later
+- **Linux:** Any modern distribution is supported. Ubuntu 22.04 LTS is a well-tested example. Native Flatpak builds are available for Steam Deck and similar Linux devices.
+
+<Note>
+  macOS is not on the official roadmap. Community-driven efforts to add support via the Metal graphics API are in progress. See the [Introduction](/introduction) page for more details.
+</Note>
+
+### Storage
+
+| Installation Type | Space Required |
+|-------------------|---------------|
+| Base game (no DLC) | 6 GiB |
+| Base game + all DLC (Adventure Packs) | 10 GiB |
+
+<Note>
+  Additional storage space may be required if uncompressed game files are provided during the installation process. Ensure you have adequate free space before beginning installation, especially on devices with limited storage such as the Steam Deck's 64 GB model.
+</Note>

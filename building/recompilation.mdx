@@ -1,0 +1,83 @@
+---
+title: "How Static Recompilation Works in Unleashed Recompiled"
+sidebarTitle: "Recompilation"
+description: "Learn how XenonRecomp and XenosRecomp convert the Xbox 360 game's PowerPC code and Xenos shaders to C++ and HLSL for native PC execution."
+---
+
+Unleashed Recompiled is not an emulator. Instead of simulating the Xbox 360 hardware at runtime, it uses **static recompilation** to convert the game's original binary code into standard C++ and HLSL ahead of time. The translated code is then compiled like any other native program, producing an executable that runs directly on the host CPU and GPU with no emulation overhead.
+
+## Static vs Dynamic Recompilation
+
+Traditional emulators use *dynamic* recompilation (JIT), translating guest instructions to host instructions at runtime, basic-block by basic-block, as the program executes. This approach is flexible but carries inherent overhead: every block must be discovered, translated, and cached on the fly, and the host has no global view of the program structure.
+
+*Static* recompilation, by contrast, operates entirely ahead of time. The full binary is analysed once, all functions and control flow are mapped out, and the result is emitted as a single C++ compilation unit. A standard optimising compiler (Clang, in this case) then processes that C++ code with full interprocedural visibility — the same way any other C++ application is built.
+
+## The Recompilation Toolchain
+
+Two purpose-built tools perform the translation. Both are open source and developed by the same team:
+
+<CardGroup cols={2}>
+  <Card
+    title="XenonRecomp"
+    icon="microchip"
+    href="https://github.com/hedge-dev/XenonRecomp"
+  >
+    Translates the Xbox 360 PowerPC binary (`default.xex`) into equivalent C++
+    source code. Developed by Skyth.
+  </Card>
+  <Card
+    title="XenosRecomp"
+    icon="display"
+    href="https://github.com/hedge-dev/XenosRecomp"
+  >
+    Translates Xenos GPU shader bytecode (`shader.ar`) into HLSL shaders
+    compatible with D3D12 and Vulkan. Developed by Skyth.
+  </Card>
+</CardGroup>
+
+A third tool, **XenonAnalyse** (developed by Sajid), is used to deeply analyse the binary's structure — identifying functions, call targets, and data references — to produce the information XenonRecomp needs to emit correct, complete C++ output.
+
+## What Each Tool Processes
+
+| Input file | Tool | Output |
+|---|---|---|
+| `default.xex` | XenonRecomp | C++ source code (`UnleashedRecompLib`) |
+| `default.xexp` | XenonRecomp | Title update patch applied before recompilation |
+| `shader.ar` | XenosRecomp | HLSL shader source files |
+
+The C++ output is compiled into **`UnleashedRecompLib`** — a static library that is linked into the main `UnleashedRecomp` executable. The HLSL output is compiled at build time into pipeline state objects by the graphics backend.
+
+<Note>
+  The recompiled C++ code generated from `default.xex` is **not included** in
+  the repository. It is produced locally from your own legally acquired copy of
+  the game. This is why the game files must be placed in
+  `./UnleashedRecompLib/private/` before building.
+</Note>
+
+## Why Static Recompilation Beats Emulation for This Project
+
+Choosing static recompilation over traditional emulation unlocks several capabilities that are structurally impossible in an emulator:
+
+**No GPU emulation overhead.** The Xbox 360's Xenos GPU is a highly customised derivative of the R500 architecture. Accurately emulating its shader model, tiled rendering, and EDRAM at runtime is expensive and imprecise. With recompilation, the Xenos shaders are translated directly to HLSL once and compiled to native GPU machine code — zero emulation at draw-call time.
+
+**Asynchronous shader compilation integrated into asset loading.** Because the game's rendering structures are statically visible in the recompiled C++ code, the renderer can traverse them and pre-compile every required pipeline object during the asset streaming phase. Shader compilation happens in the background, in parallel with level loading, eliminating the in-gameplay stutters that plague emulators running the same title.
+
+**Targeted gameplay patches.** The full control-flow graph of the game is available at compile time. Fixes for frame-rate-dependent bugs, aspect-ratio calculations, camera behaviour, and player movement can be applied as surgical C++ patches in `patches/` rather than fragile memory-address hacks.
+
+**Native API usage.** With no emulation layer in the way, the renderer can exploit modern graphics features directly: bindless texture descriptors, parallel transfer queues, Flip Model presentation, and Waitable Swap Chains — none of which are accessible inside an emulator's guest-API wrapper.
+
+## Inspiration
+
+This approach was directly inspired by [**N64: Recompiled**](https://github.com/N64Recomp/N64Recomp) by Mr-Wiseguy, which was used to create [**Zelda 64: Recompiled**](https://github.com/Zelda64Recomp/Zelda64Recomp). The Unleashed Recompiled team received information and early assistance from Mr-Wiseguy at the start of development, and the xenia-project's extensive Xbox 360 hardware research also significantly accelerated the work.
+
+## Build-Time Flow
+
+When you run `cmake --build` for the first time, the following sequence occurs before any of the regular C++ sources are compiled:
+
+1. **XenonRecomp** reads `default.xex` + `default.xexp` from `./UnleashedRecompLib/private/` and emits the C++ game library source.
+2. **XenosRecomp** reads `shader.ar` and emits HLSL shader sources.
+3. The emitted C++ is compiled into `UnleashedRecompLib` (the game library).
+4. The emitted HLSL shaders are compiled and embedded into the graphics backend.
+5. `UnleashedRecomp` (the main executable) is compiled and linked against `UnleashedRecompLib`.
+
+This step only reruns when the input files in `./UnleashedRecompLib/private/` change, so subsequent builds are fast incremental C++ rebuilds.

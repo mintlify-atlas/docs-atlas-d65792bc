@@ -1,0 +1,91 @@
+---
+title: "Unleashed Recompiled Architecture and Project Structure"
+sidebarTitle: "Architecture"
+description: "Explore the high-level architecture of Unleashed Recompiled: the renderer, kernel translation layer, mod loader, and installer components."
+---
+
+Unleashed Recompiled is composed of two cooperating CMake targets that together form a complete, self-contained PC port. Understanding how the codebase is split helps when navigating the repository or contributing changes.
+
+## CMake Targets
+
+| Target | Role |
+|---|---|
+| **`UnleashedRecomp`** | The main executable: engine runtime, graphics backend, kernel layer, UI, and all PC-side systems |
+| **`UnleashedRecompLib`** | The statically compiled game library produced by XenonRecomp from `default.xex`; requires the game files to build |
+
+`UnleashedRecompLib` is linked into `UnleashedRecomp` at compile time. It is never distributed as part of the project — it is generated from your own legal copy of the game.
+
+## UnleashedRecomp Subdirectories
+
+The `UnleashedRecomp/` source tree is organised by subsystem. Each directory has a focused responsibility:
+
+| Directory | Role |
+|---|---|
+| `api/` | Internal API layer used by other subsystems |
+| `apu/` | Audio processing unit emulation (maps Xbox 360 XMA/PCM audio to SDL_mixer) |
+| `cpu/` | CPU-level emulation helpers (PPC register state, intrinsics) |
+| `gpu/` | Graphics backend — D3D12 on Windows, Vulkan everywhere else via the plume HAL |
+| `hid/` | Human input device handling (gamepad, keyboard, DualSense haptics/LED) |
+| `install/` | Installation wizard, file system helpers (ISO parsing, XContent containers, virtual FS) |
+| `kernel/` | Xbox 360 kernel translation layer (threads, synchronisation, file I/O, XEX loader) |
+| `locale/` | Localization system for the custom menus |
+| `mod/` | Mod loader compatible with Hedge Mod Manager |
+| `os/` | OS abstraction layer (window management, clipboard, process lifecycle) |
+| `patches/` | Gameplay patches — aspect ratio, FPS cap, camera, audio, video playback, player behaviour |
+| `ui/` | Custom in-game menus built on Dear ImGui (options, achievements, installer UI) |
+| `user/` | User configuration (`config.toml`), achievement state, save data, persistent preferences |
+
+## Graphics Backend
+
+The graphics backend in `gpu/` is built on top of **plume** — a rendering hardware abstraction layer (HAL) developed by Darío. plume abstracts the differences between graphics APIs so the rest of the engine can issue draw calls without knowing which backend is active:
+
+- **D3D12** — used on Windows; supports Waitable Swap Chains and Flip Models for low latency presentation
+- **Vulkan** — used on Windows, Linux, and macOS (via **MoltenVK**, bundled under `thirdparty/MoltenVK/`)
+
+Modern rendering features are used throughout: bindless texture descriptors, parallel transfer queues for asset streaming, and pipeline specialization for maximum throughput on a wide range of hardware.
+
+### Custom Shaders
+
+Hand-written HLSL shaders live in `gpu/shader/` and cover every effect that falls outside the recompiled game code:
+
+| Shader file | Purpose |
+|---|---|
+| `gamma_correction_ps.hlsl` | Final gamma / color-space correction pass |
+| `enhanced_motion_blur_ps.hlsl` | Higher-sample-count motion blur post-process |
+| `gaussian_blur_*.hlsl` | Gaussian blur kernels (3×3 through 9×9 taps) for Depth of Field |
+| `resolve_msaa_color_*x.hlsl` | MSAA color resolve for 2×, 4×, and 8× sample counts |
+| `resolve_msaa_depth_*x.hlsl` | MSAA depth resolve |
+| `imgui_vs.hlsl` / `imgui_ps.hlsl` | Vertex and pixel shaders for Dear ImGui UI rendering |
+| `movie_vs.hlsl` / `movie_ps.hlsl` | Video playback shaders |
+| `copy_*.hlsl` / `csd_*.hlsl` | Utility copy and CSD (Criware) filter shaders |
+
+## Patches Subsystem
+
+The `patches/` directory contains targeted modifications applied at startup that are not feasible to fix inside the recompiled game code itself:
+
+- `aspect_ratio_patches.cpp` — ultrawide and arbitrary aspect ratio support
+- `fps_patches.cpp` — frame rate cap removal and high-FPS bug fixes
+- `camera_patches.cpp` — camera behaviour corrections at high frame rates
+- `audio_patches.cpp` — audio timing and streaming fixes
+- `video_patches.cpp` — video playback corrections
+- `player_patches.cpp` — player movement fixes at non-native frame rates
+
+## Third-Party Libraries
+
+Dependencies are managed by vcpkg and pulled in as submodules under `thirdparty/`:
+
+| Library | Purpose |
+|---|---|
+| SDL2 | Window management, input, audio device abstraction |
+| SDL_mixer | Audio mixing and XMA/Vorbis decoding |
+| Dear ImGui | Immediate-mode UI framework for all custom menus |
+| ImPlot | Performance graph overlay (F1 menu) |
+| concurrentqueue | Lock-free multi-producer/consumer queue for async work |
+| ddspp | DDS texture header parsing |
+| json | JSON serialisation (config, launch descriptors) |
+| magic_enum | Compile-time enum reflection |
+| msdf-atlas-gen | Multi-channel signed distance field font atlas generation |
+| stb | Image load/decode utilities |
+| o1heap | O(1) deterministic memory allocator |
+| MoltenVK | Vulkan-over-Metal translation layer (macOS) |
+| plume | Rendering hardware abstraction layer (D3D12 / Vulkan) |

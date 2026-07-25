@@ -1,0 +1,135 @@
+---
+title: "Build Unleashed Recompiled on Windows"
+sidebarTitle: "Windows"
+description: "Build Unleashed Recompiled on Windows using Visual Studio 2022 with the Clang compiler and CMake tools."
+---
+
+Windows builds use Visual Studio 2022 as the IDE and toolchain host, but the actual compiler is **Clang** (via the `clang-cl` frontend) rather than MSVC. The three available CMake presets — `x64-Clang-Debug`, `x64-Clang-RelWithDebInfo`, and `x64-Clang-Release` — are all self-contained: vcpkg dependency installation and CMake configuration happen automatically when you open the folder in Visual Studio.
+
+## Build Steps
+
+<Steps>
+  <Step title="Clone the repository">
+    Open a terminal and clone the repository with all submodules:
+
+    ```bash
+    git clone --recurse-submodules https://github.com/hedge-dev/UnleashedRecomp.git
+    ```
+
+    If you cloned without `--recurse-submodules`, run `update_submodules.bat` from the repository root to pull in the missing submodules.
+  </Step>
+
+  <Step title="Add the required game files">
+    Copy the following files from your legally acquired copy of Sonic Unleashed into `./UnleashedRecompLib/private/`:
+
+    - `default.xex` — found in the game's root directory
+    - `default.xexp` — obtained from the title update package
+    - `shader.ar` — found in the game's root directory
+
+    <Tip>
+      Install the game using an existing [Unleashed Recompiled
+      release](https://github.com/hedge-dev/UnleashedRecomp/releases/latest) to
+      get verified, installer-extracted copies of these files. They will be
+      stored under `game` and `update` subdirectories of your installation.
+    </Tip>
+  </Step>
+
+  <Step title="Install Visual Studio 2022">
+    Download and run the [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) installer.
+
+    In the **Workloads** and **Individual components** screens, select all of the following:
+
+    - **Desktop development with C++** *(workload)*
+    - **C++ Clang Compiler for Windows** *(individual component)*
+    - **C++ CMake tools for Windows** *(individual component)*
+
+    These three components provide `clang-cl`, `lld-link`, and the CMake integration that Visual Studio needs to configure and build the project automatically.
+  </Step>
+
+  <Step title="Open the repository in Visual Studio">
+    Launch Visual Studio 2022 and choose **Open a local folder**, then select the cloned `UnleashedRecomp` directory.
+
+    Visual Studio will detect `CMakePresets.json` and begin CMake generation automatically. Wait for the **CMake generation finished** message in the Output window before proceeding.
+
+    <Tip>
+      If you do not need to attach a debugger, switch the active configuration
+      from **Debug** to **RelWithDebInfo** (or **Release**) in the toolbar
+      drop-down at this point for significantly faster compile times and
+      near-Release performance. See the [preset reference](#available-presets)
+      below.
+    </Tip>
+  </Step>
+
+  <Step title="Switch to CMake Targets View">
+    In the **Solution Explorer** panel, right-click anywhere in the file tree and choose **Switch to CMake Targets View**. This replaces the folder view with a list of the project's actual CMake targets.
+  </Step>
+
+  <Step title="Set UnleashedRecomp as the startup item">
+    In the CMake Targets View, right-click the **UnleashedRecomp** target and choose **Set as Startup Item**, then select **Add Debug Configuration**.
+
+    Visual Studio will create (or open) a `launch.vs.json` file. It will look similar to this:
+
+    ```json
+    {
+      "version": "0.2.1",
+      "defaults": {},
+      "configurations": [
+        {
+          "type": "default",
+          "project": "CMakeLists.txt",
+          "projectTarget": "UnleashedRecomp.exe",
+          "name": "UnleashedRecomp.exe"
+        }
+      ]
+    }
+    ```
+  </Step>
+
+  <Step title="Set the game directory">
+    Add a `currentDir` property to the first element inside the `configurations` array and set its value to the path of your game directory — the folder that contains the `dlc`, `game`, and `update` subdirectories:
+
+    ```json
+    {
+      "version": "0.2.1",
+      "defaults": {},
+      "configurations": [
+        {
+          "type": "default",
+          "project": "CMakeLists.txt",
+          "projectTarget": "UnleashedRecomp.exe",
+          "name": "UnleashedRecomp.exe",
+          "currentDir": "C:\\Games\\SonicUnleashed"
+        }
+      ]
+    }
+    ```
+
+    Replace `C:\\Games\\SonicUnleashed` with the actual path on your system. Use double backslashes (`\\`) or forward slashes (`/`) in the JSON string.
+  </Step>
+
+  <Step title="Build and run">
+    Press **F5** (or click the green **Start** button in the toolbar) to build and launch **UnleashedRecomp**.
+
+    <Note>
+      The first build takes longer than usual because XenonRecomp and
+      XenosRecomp must translate the game's PowerPC binary and Xenos shader
+      bytecode into C++ and HLSL. Subsequent builds only recompile files that
+      have changed and are much faster.
+    </Note>
+  </Step>
+</Steps>
+
+## Available Presets
+
+| Preset | Build type | Notes |
+|---|---|---|
+| `x64-Clang-Debug` | Debug | Full debug symbols, no optimisation |
+| `x64-Clang-RelWithDebInfo` | RelWithDebInfo | Debug symbols + optimisation; fastest to iterate on |
+| `x64-Clang-Release` | Release | LTO enabled; slowest to compile, fastest to run |
+
+<Tip>
+  **RelWithDebInfo** is the recommended configuration for day-to-day development.
+  It produces a fully optimised binary with debug information attached, giving
+  you Release-level runtime performance while keeping compile times noticeably
+  shorter than a full Release build.
+</Tip>

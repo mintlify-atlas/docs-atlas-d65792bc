@@ -1,0 +1,117 @@
+---
+title: "Build Unleashed Recompiled on macOS"
+sidebarTitle: "macOS"
+description: "Build Unleashed Recompiled on macOS with Xcode 16.3+ or Command Line Tools, CMake, and Ninja via Homebrew or MacPorts."
+---
+
+macOS support is community-driven and not currently on the official roadmap, but the build system fully supports it. Vulkan is provided on macOS through [MoltenVK](https://github.com/KhronosGroup/MoltenVK), which is included as a submodule under `thirdparty/MoltenVK`. The macOS deployment target is **13.0**. CI builds run on `macos-15` (Apple Silicon, `arm64`), though x86-64 builds can be produced by passing `-DCMAKE_OSX_ARCHITECTURES=x86_64` at configure time.
+
+## Build Steps
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the repository with all submodules:
+
+    ```bash
+    git clone --recurse-submodules https://github.com/hedge-dev/UnleashedRecomp.git
+    cd UnleashedRecomp
+    ```
+  </Step>
+
+  <Step title="Add the required game files">
+    Copy the following files from your legally acquired copy of Sonic Unleashed into `./UnleashedRecompLib/private/`:
+
+    - `default.xex` — found in the game's root directory
+    - `default.xexp` — obtained from the title update package
+    - `shader.ar` — found in the game's root directory
+
+    <Tip>
+      Install the game using an existing [Unleashed Recompiled
+      release](https://github.com/hedge-dev/UnleashedRecomp/releases/latest) to
+      get verified copies of these files. They will be stored under `game` and
+      `update` subdirectories of your installation.
+    </Tip>
+  </Step>
+
+  <Step title="Install Xcode or Command Line Tools">
+    Install **Xcode 16.3 or later** from the Mac App Store, or install the equivalent Xcode Command Line Tools from Apple:
+
+    ```bash
+    xcode-select --install
+    ```
+
+    Xcode provides the Apple Clang compiler and the required macOS SDK headers. Make sure the active developer directory points to your Xcode installation:
+
+    ```bash
+    sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+    ```
+  </Step>
+
+  <Step title="Install additional build tools">
+    Install CMake, Ninja, and pkg-config using your preferred package manager:
+
+    <CodeGroup>
+      ```bash Homebrew
+      brew install cmake ninja pkg-config
+      ```
+
+      ```bash MacPorts
+      sudo port install cmake ninja pkg-config
+      ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Configure the project">
+    From the repository root, run CMake with your chosen preset. The example below uses `macos-release`; see the [preset reference](#available-presets) for all options:
+
+    ```bash
+    cmake . --preset macos-release
+    ```
+
+    CMake will bootstrap vcpkg and compile all required libraries into `./thirdparty/vcpkg/`. This only happens on the first configure and can take several minutes.
+  </Step>
+
+  <Step title="Build the project">
+    Compile the `UnleashedRecomp` target:
+
+    ```bash
+    cmake --build ./out/build/macos-release --target UnleashedRecomp
+    ```
+
+    <Note>
+      The first build takes longer than usual because XenonRecomp and
+      XenosRecomp translate the game's PowerPC binary and Xenos shader bytecode
+      into C++ and HLSL as part of the build. Subsequent builds skip this step
+      unless the input game files change.
+    </Note>
+  </Step>
+
+  <Step title="Run the game">
+    The build produces a macOS app bundle. Open it with:
+
+    ```bash
+    open -a "Unleashed Recompiled.app" --args ./out/build/macos-release/UnleashedRecomp
+    ```
+
+    Or navigate to `./out/build/macos-release/UnleashedRecomp/` and double-click **Unleashed Recompiled.app** in Finder.
+
+    On the first run the game will prompt you for your Sonic Unleashed game files if it cannot find an existing installation.
+  </Step>
+</Steps>
+
+## Available Presets
+
+| Preset | Build type | Notes |
+|---|---|---|
+| `macos-debug` | Debug | Full debug symbols, no optimisation |
+| `macos-relwithdebinfo` | RelWithDebInfo | Debug symbols + optimisation; recommended for development |
+| `macos-release` | Release | LTO enabled; best runtime performance |
+
+<Note>
+  macOS support is community-driven and is not officially on the project
+  roadmap. Unleashed Recompiled uses
+  [plume](https://github.com/renderbag/plume) as its graphics abstraction layer,
+  which will be gaining Metal support in a future update. You can follow the
+  macOS discussion on [GitHub
+  issue #455](https://github.com/hedge-dev/UnleashedRecomp/issues/455).
+</Note>

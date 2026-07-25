@@ -1,0 +1,130 @@
+---
+title: "Dump Sonic Unleashed from Xbox 360 Hard Drive"
+sidebarTitle: "Hard Drive"
+description: "Step-by-step guide to copy Sonic Unleashed game files from an Xbox 360 hard drive to your PC using the Transfer Cable and Velocity."
+---
+
+This guide covers how to dump Sonic Unleashed from an Xbox 360 hard drive to your PC using the Xbox 360 Hard Drive Transfer Cable (or a compatible SATA to USB adapter) and Velocity. If you would rather use a USB storage device, see the [USB Drive guide](/dumping/usb) instead.
+
+## Prerequisites
+
+Before you begin, make sure you have all of the following:
+
+- Xbox 360 (no modifications required)
+- Xbox 360 Hard Drive (20 GB minimum)
+- Xbox 360 Hard Drive Transfer Cable, or a compatible SATA to USB adapter
+- Sonic Unleashed for Xbox 360 (US or EU — **JP is not supported**)
+  - Retail disc or digital copy (available on the [Xbox Store](https://www.xbox.com/en-US/games/store/sonic-unleashed/c098fgnmts8f))
+  - Title Update required
+  - Adventure Pack DLC (optional but highly recommended — includes high-quality lighting for the entire game)
+- [7-Zip](https://7-zip.org/download.html) — for extracting Velocity
+- [Velocity (Gualdimar's fork)](https://github.com/Gualdimar/Velocity/releases/download/xex%2Biso-branch/Velocity-XEXISO.rar)
+
+<Tip>
+  If you still need to purchase the Xbox 360 Hard Drive Transfer Cable, make sure you get the correct revision for your console.
+
+  - The **first revision** (gray cable) only works with original Xbox 360 hard drives.
+  - The **latest revision** (black cable) works with both original Xbox 360 and Xbox 360 S|E hard drives.
+</Tip>
+
+## Instructions
+
+<Steps>
+  <Step title="Install the game from disc">
+    Insert your retail disc copy of Sonic Unleashed into the Xbox 360 disc tray.
+
+    <Note>
+      If you have a **digital copy** of Sonic Unleashed, skip ahead to **Step 4** — the game is already on your hard drive and does not need to be installed from a disc.
+    </Note>
+  </Step>
+
+  <Step title="Open Game Details">
+    At the Xbox Dashboard, go to the disc tile under the **Home** tab and press **X** to view **Game Details**.
+  </Step>
+
+  <Step title="Install to the hard drive">
+    Under the **Overview** tab, select the **Install** tile and choose to install the game to your primary hard drive.
+  </Step>
+
+  <Step title="Remove the hard drive from the console">
+    Once the installation is complete, turn off your Xbox 360 and remove the hard drive from your console.
+
+    <Tip>
+      If you are unsure how to remove the hard drive from your specific console model, consult one of the following iFixit guides:
+      - [Xbox 360](https://www.ifixit.com/Guide/Xbox+360+Hard+Drive+Replacement/3326)
+      - [Xbox 360 S](https://www.ifixit.com/Guide/Xbox+360+S+Hard+Drive+Replacement/3184)
+      - [Xbox 360 E](https://www.ifixit.com/Guide/Xbox+360+E+Hard+Drive+Replacement/22179)
+    </Tip>
+  </Step>
+
+  <Step title="Connect the hard drive to your PC">
+    Using the Xbox 360 Hard Drive Transfer Cable (or a compatible SATA to USB adapter), connect your Xbox 360 hard drive to your PC.
+
+    <Warning>
+      If you are using an **unofficial SATA to USB adapter**, you may need to remove the hard drive from its enclosure first.
+
+      - For **original Xbox 360 hard drives**, this is straightforward — [remove the screws and crack open the enclosure](https://www.ifixit.com/Guide/Xbox+360+HDD+Replacement/3430).
+      - For **Xbox 360 S|E hard drives**, the enclosure is glued shut and opening it may be an **irreversible process**.
+
+      It is highly recommended that you use the official Xbox 360 Hard Drive Transfer Cable to avoid this situation entirely.
+    </Warning>
+  </Step>
+
+  <Step title="Extract Velocity">
+    Download [the latest release of Velocity](https://github.com/Gualdimar/Velocity/releases/download/xex%2Biso-branch/Velocity-XEXISO.rar). Open the `.rar` file using [7-Zip](https://7-zip.org/download.html) and extract its contents to a convenient location on your PC.
+  </Step>
+
+  <Step title="Create a destination folder">
+    Create a new folder somewhere convenient on your PC. This is where you will store the copied game files.
+  </Step>
+
+  <Step title="Run Velocity as Administrator (Windows only)">
+    Right-click `Velocity.exe` and select **Properties**. Under the **Compatibility** tab, tick **Run this program as an administrator**, then click **OK**. This is required for Velocity to detect and read the Xbox 360 hard drive.
+
+    You can now launch `Velocity.exe`.
+
+    <Note>
+      If you are on **Linux**, skip this step and launch Velocity directly.
+    </Note>
+  </Step>
+
+  <Step title="Open the Device Content Viewer">
+    When Velocity launches, you should see a **Device Detected** prompt asking if you would like to open the **Device Content Viewer**. Click **Yes**.
+  </Step>
+
+  <Step title="Navigate to the game and DLC content">
+    In the Device Content Viewer you will see a tree view of your hard drive's contents. Expand the following nodes:
+    - `/Shared Items/Games/`
+    - `/Shared Items/DLC/` *(only if you have the DLC installed)*
+  </Step>
+
+  <Step title="Select all content to copy">
+    Hold the **Ctrl** key and click **SONIC UNLEASHED** under the `Games` node. If you have the DLC installed, also click each **Adventure Pack** under the `DLC` node. Make sure all desired items are selected before continuing.
+  </Step>
+
+  <Step title="Copy the game files to your PC">
+    Right-click any of the selected items and choose **Copy Selected to Local Disk**. Navigate to the folder you created in Step 7 and select it. Velocity will now copy all selected content to your PC.
+  </Step>
+
+  <Step title="Open the Raw Device Viewer">
+    Once the transfer is complete, close the **Device Content Viewer** window. In the menu bar, navigate to **Tools → Device Tools → Raw Device Viewer**.
+  </Step>
+
+  <Step title="Find the Title Update file">
+    Navigate to `/Content/Cache/` and click the **Name** column header to sort by name. Look for a file whose name begins with `TU_19KA20I` — this is the Title Update, which is required for installation.
+
+    <Tip>
+      To verify the file is correct, double-click it to open it in **Package Viewer**. Confirm that `default.xexp` is present inside, along with a folder named `work`. Once verified, close the Package Viewer window and continue.
+    </Tip>
+  </Step>
+
+  <Step title="Copy the Title Update to your PC">
+    Right-click the `TU_19KA20I` file and select **Copy Selected to Local Disk**. Navigate to the folder you created in Step 7 and select it. Velocity will copy the Title Update to your PC.
+  </Step>
+
+  <Step title="Done — all files are ready">
+    Once the transfer is complete, you now have all the files needed to install Unleashed Recompiled. Head to the installation guide to continue.
+  </Step>
+</Steps>
+
+Now that you have all of the necessary game files, you are ready to proceed with the installation. See [Installing Unleashed Recompiled](/installation/installing) for the next steps.

@@ -1,0 +1,151 @@
+---
+title: "Frequently Asked Questions — Unleashed Recompiled"
+sidebarTitle: "FAQ"
+description: "Answers to common questions about Unleashed Recompiled: installation issues, save data, performance, platform support, and modding."
+---
+
+This page collects answers to the most common questions about Unleashed Recompiled. If you can't find what you're looking for here, please check the [README](https://github.com/hedge-dev/UnleashedRecomp) on GitHub.
+
+<AccordionGroup>
+
+  <Accordion title="Do you have a website or Discord server?">
+    Unleashed Recompiled does not have an official website, nor is it affiliated with any Discord servers. **Please link directly to the GitHub repository when directing anyone to the project.**
+
+    The only official place to download releases is the [GitHub Releases page](https://github.com/hedge-dev/UnleashedRecomp/releases/latest).
+
+    <Warning>
+      Do not download builds of Unleashed Recompiled from anywhere other than the official [Releases](https://github.com/hedge-dev/UnleashedRecomp/releases/latest) page.
+
+      **We will never distribute builds on other websites, via Discord servers, or via third-party update tools.**
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Why does the installer say my files are invalid?">
+    The installer may display this error for several reasons. Check the following to ensure your files are valid:
+
+    - Read the **How to Install** section of the README and make sure you have acquired all of the necessary files correctly.
+    - Verify that you are not trying to add compressed files such as `.zip`, `.7z`, `.rar`, or other archive formats.
+    - Only use the **Add Folder** option if you are sure you have a directory with the content's files already extracted — it should contain files like `.xex`, `.ar.00`, `.arl`, and similar. **This option will not scan your folder for compatible content.**
+    - Ensure that the files you've acquired all correspond to the same region. **Discs and Title Updates from different regions cannot be used together** and will fail to generate a patch.
+    - The installer will only accept **original and unmodified files**. Do not attempt to provide modified files to the installer.
+  </Accordion>
+
+  <Accordion title="What are the keyboard bindings?">
+    Unleashed Recompiled includes default keyboard bindings for players who do not have a controller available. For the full list of default keys, see the [Keyboard Bindings](/reference/keyboard-bindings) reference page.
+
+    You can customise the bindings by editing the `[Bindings]` section of `config.toml` in your [configuration directory](#where-is-the-save-data-and-configuration-file-stored). Using a controller is highly recommended until the Action Remapping feature is added in a future update.
+  </Accordion>
+
+  <Accordion title="Where is the save data and configuration file stored?">
+    The save data and configuration files are stored at the following locations depending on your platform:
+
+    | Platform | Path |
+    |----------|------|
+    | Windows  | `%APPDATA%\UnleashedRecomp\` |
+    | Linux    | `~/.config/UnleashedRecomp/` |
+    | Flatpak  | `~/.var/app/io.github.hedge_dev.unleashedrecomp/data` |
+
+    Within that directory you will find:
+    - Save data under the `save` folder (or `mlsave` if using Hedge Mod Manager's save file redirection).
+    - The configuration file named `config.toml`.
+  </Accordion>
+
+  <Accordion title="I want to update the game. How can I avoid losing my save data? Do I need to reinstall?">
+    Updating is done by simply copying and replacing the files from a new [release](https://github.com/hedge-dev/UnleashedRecomp/releases) on top of your existing installation. **Your save data and configuration will not be lost.** You do not need to reinstall the game — the installed game files always remain the same across versions of Unleashed Recompiled.
+  </Accordion>
+
+  <Accordion title="How can I force the game to store save data and configuration in the installation folder?">
+    Create an empty file named `portable.txt` inside the installation directory. This will make the game ignore the default configuration paths and store everything alongside the executable instead.
+
+    You are directly responsible for the safekeeping of your save data and configuration if you choose this option.
+  </Accordion>
+
+  <Accordion title="How can I install mods?">
+    Use [Hedge Mod Manager (HMM)](https://github.com/thesupersonic16/HedgeModManager) to install mods. **Do not install mods by modifying the game data directly.** You will not receive support for issues caused by directly modifying game files.
+
+    <Warning>
+      Unleashed Mod Manager is not recommended for use with Unleashed Recompiled, as it can make permanent changes to your game files.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="How can I force the game to run the installer again?">
+    While it is unlikely you will need to do this unless you have accidentally modified your game files, you can force the installer to run again by launching the executable with the following argument:
+
+    ```sh
+    UnleashedRecomp --install
+    ```
+  </Accordion>
+
+  <Accordion title="How can I force the game to run under X11 or Wayland?">
+    Use either of the following launch arguments to force SDL to initialise under the video driver of your choice:
+
+    ```sh
+    # Force X11
+    UnleashedRecomp --sdl-video-driver x11
+
+    # Force Wayland
+    UnleashedRecomp --sdl-video-driver wayland
+    ```
+
+    The argument is passed directly to SDL as a hint and will attempt to initialise the game with your preferred option.
+  </Accordion>
+
+  <Accordion title="Where is the game data for the Flatpak version installed?">
+    Because it is not possible to run the game from the location where the Flatpak itself is stored, the game data is installed to:
+
+    ```
+    ~/.var/app/io.github.hedge_dev.unleashedrecomp/data
+    ```
+
+    The Flatpak build will only recognise this directory as a valid installation. If you wish to switch to a native Linux build in the future, you can reuse this directory directly.
+
+    If you want to move the data to another location, create a symlink from this path to your chosen destination.
+  </Accordion>
+
+  <Accordion title="How can I improve performance?">
+    Lowering the following graphics options typically has the biggest impact on performance:
+
+    - **Resolution Scale**
+    - **Anti-Aliasing**
+    - **Shadow Resolution**
+
+    **Performance overlay:** Press **F1** to open a detailed performance overlay showing multiple graphs and relevant system information — use this to help identify bottlenecks.
+
+    **GPU selection:** On systems with multiple GPUs (e.g. gaming laptops), make sure the game has selected your dedicated graphics adapter. The F1 overlay shows the active device name. If the wrong GPU is being used, override it by setting the `GraphicsDevice` property in `config.toml` to the exact name of your preferred device.
+
+    **CPU considerations:** Some demanding sections of the game require strong CPU single-thread performance. While the recompilation process itself adds minimal overhead, modern systems are often CPU-bottlenecked before the GPU.
+
+    **Linux advantage:** Linux has shown unexpectedly better CPU performance in CPU-bound scenarios, likely due to how its scheduler handles the heavy thread synchronisation the game performs. If you need extra headroom, running on Linux instead of Windows may yield noticeable improvements.
+
+    <Warning>
+      Using external frame rate limiters or performance overlays may degrade performance or have negative consequences.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Can I install the game with a PlayStation 3 copy?">
+    **No.** The PlayStation 3 version uses proprietary file formats that are entirely different from the Xbox 360 version. Supporting those files would require a completely separate recompilation effort, as the code for those formats only exists in the PS3 build. All significant differences present in the PS3 version have been included in Unleashed Recompiled as optional settings.
+  </Accordion>
+
+  <Accordion title="Can I install the game with a Japanese copy?">
+    **No.** The Japanese version of Sonic Unleashed has minor but incompatible differences in both file structure and content compared to the international release. Since the US and EU versions of the game already support Japanese language, adding support for the Japanese-region disc would only introduce mod compatibility issues and would require its own separate recompilation. It is unlikely to be added to the roadmap.
+  </Accordion>
+
+  <Accordion title="Why is the game detecting my PlayStation controller as an Xbox controller?">
+    This is typically caused by a third-party input translation layer such as **DS4Windows** or **Steam Input** re-presenting your controller as an Xbox device. Disabling or bypassing these tools is recommended for full native controller support, including DualShock 4 and DualSense features like LED lighting and touchpad support.
+  </Accordion>
+
+  <Accordion title="Will macOS be supported?">
+    macOS is not currently on the official roadmap, but the project welcomes community contributions to add support for the platform. Unleashed Recompiled relies on [plume](https://github.com/renderbag/plume), a rendering hardware abstraction layer that will be gaining Metal support in the near future, which will make a macOS port considerably more feasible.
+
+    You can follow and contribute to the macOS discussion on [GitHub issue #455](https://github.com/hedge-dev/UnleashedRecomp/issues/455).
+  </Accordion>
+
+  <Accordion title="What other platforms will be supported?">
+    At this time, the project only plans to support **Windows**, **Linux**, and potentially **macOS**. There are no plans to support additional platforms within the main project. Contributors who wish to target other platforms are encouraged to do so through a fork.
+  </Accordion>
+
+  <Accordion title="Do you have plans to recompile other Xbox 360 or Sonic games?">
+    The team behind Unleashed Recompiled does not currently have any plans to port additional Xbox 360 games or other Sonic titles. If you are interested in pursuing that yourself, [XenonRecomp](https://github.com/hedge-dev/XenonRecomp) — the static recompilation toolchain used by this project — is open source and available for anyone to explore.
+  </Accordion>
+
+</AccordionGroup>

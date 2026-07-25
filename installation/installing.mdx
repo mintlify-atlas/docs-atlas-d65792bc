@@ -1,0 +1,111 @@
+---
+title: "Install Unleashed Recompiled on Windows and Linux"
+sidebarTitle: "Installing"
+description: "Download Unleashed Recompiled and run the built-in installer wizard to set up Sonic Unleashed on Windows or Linux using your dumped game files."
+---
+
+Unleashed Recompiled includes a built-in installation wizard that guides you through the full setup process. Before you begin, make sure you have legally dumped your copy of Sonic Unleashed for Xbox 360 — the project does not include any game assets.
+
+## Prerequisites
+
+<Warning>
+  Unleashed Recompiled **does not include any game assets**. You must provide files from your own legally acquired copy of Sonic Unleashed (Xbox 360). Only the **US and EU** versions are supported — the JP version is not compatible.
+</Warning>
+
+You will need the following before installing:
+
+- A legally acquired copy of **Sonic Unleashed for Xbox 360** (US or EU disc or digital copy)
+- The **Title Update** for the game (required)
+- All available **DLC Adventure Packs** (optional but highly recommended — they include high-quality lighting for the entire game)
+- Your dumped game files, obtained by following one of the dumping guides
+
+If you have not yet dumped your game files, follow the appropriate guide first:
+
+<CardGroup cols={2}>
+  <Card title="Dumping Overview" icon="hard-drive" href="/dumping/overview">
+    Learn how to acquire your game files from an Xbox 360 hard drive or USB storage device.
+  </Card>
+</CardGroup>
+
+## Installation Steps
+
+<Steps>
+  <Step title="Download the latest release">
+    Download the latest release of Unleashed Recompiled from the [official GitHub Releases page](https://github.com/hedge-dev/UnleashedRecomp/releases/latest). Always download from this page — builds are never distributed through Discord servers, third-party websites, or update tools.
+  </Step>
+
+  <Step title="Extract the archive">
+    Extract the downloaded archive to the folder where you want the game to be installed. This directory will serve as the game's installation location.
+  </Step>
+
+  <Step title="Run the executable">
+    Launch the Unleashed Recompiled executable. If this is your first time running it, the installation wizard will start automatically and walk you through the setup process.
+  </Step>
+
+  <Step title="Provide your game files">
+    The installer will prompt you to provide your dumped game files. You will be presented with two options depending on how your files are organized:
+
+    **Add Files** — Use this if you have raw **container or image files dumped directly from your Xbox 360**. These are typically very large files without a standard file extension. The installer will automatically detect the type of content inside each container, so you do not need to know what is inside them beforehand.
+
+    **Add Folder** — Use this if you have a **directory containing the game's already-extracted raw files** (e.g. files with extensions like `.xex`, `.ar.00`, `.arl`). This option expects the folder to contain the extracted content for a specific piece of the game directly — it will **not** scan subfolders or search for compatible content automatically.
+  </Step>
+
+  <Step title="Complete the installation">
+    Follow the remaining prompts in the wizard to finish installing the game. Once complete, the game will launch directly. The DLC Adventure Packs can also be added later from the installer accessible via the title screen.
+  </Step>
+</Steps>
+
+<Warning>
+  The installer will only accept **original, unmodified game files**. If your files have been modified they will be rejected, and re-running the installer will not resolve the problem. If you experience issues such as black screens or crashes after a successful installation, **do not attempt to reinstall** — this cannot result in an invalid installation.
+</Warning>
+
+<Note>
+  Only the **US and EU** regional versions of Sonic Unleashed are supported. The Japanese version has differences in both file structure and content that make it incompatible, and it is unlikely to be supported in the future. US and EU versions already include Japanese language support.
+</Note>
+
+<Note>
+  If you did not include the DLC Adventure Packs during the initial setup, you can add them at any time by accessing the installer again from the **title screen** once the game is running.
+</Note>
+
+## Add Files vs. Add Folder
+
+Understanding the difference between the two installer options will help you avoid common errors:
+
+| Option | Use when… | What it accepts |
+|---|---|---|
+| **Add Files** | You have raw dump files from an Xbox 360 | Large container/image files without extensions |
+| **Add Folder** | You have pre-extracted game content | A directory containing extracted files (`.xex`, `.ar.00`, `.arl`, etc.) |
+
+The **Add Folder** option will not scan the provided directory for compatible content — it expects the folder itself to be the root of the already-extracted content for a specific piece of the game.
+
+## Portable Mode
+
+By default, Unleashed Recompiled stores your save data and configuration in a system-level directory (see [Save Data Locations](#save-data-locations) below). If you prefer to keep everything self-contained within your installation folder — for example, on a portable drive — you can enable **portable mode**.
+
+To enable portable mode, create an empty file named `portable.txt` in the same directory as the Unleashed Recompiled executable. The game will then store all configuration and save data inside the installation folder instead of the default system path.
+
+<Warning>
+  When using portable mode, you are solely responsible for the safekeeping of your save data and configuration files.
+</Warning>
+
+## Save Data Locations
+
+Unless portable mode is enabled, save data and configuration are stored at the following locations:
+
+- **Windows:** `%APPDATA%\UnleashedRecomp\`
+- **Linux:** `~/.config/UnleashedRecomp/`
+
+Inside this directory you will find:
+
+- `save/` — your save data (or `mlsave/` if using Hedge Mod Manager's save file redirection)
+- `config.toml` — the game's configuration file
+
+<Tip>
+  If you ever need to force the installation wizard to run again (for example, if you accidentally modified your game files), you can do so by launching the executable with the `--install` argument:
+
+  ```sh
+  UnleashedRecomp.exe --install
+  ```
+
+  Note that a successful installation cannot result in an invalid state, so reinstalling is rarely necessary.
+</Tip>

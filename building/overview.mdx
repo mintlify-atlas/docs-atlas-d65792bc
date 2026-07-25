@@ -1,0 +1,103 @@
+---
+title: "Build Unleashed Recompiled from Source"
+sidebarTitle: "Overview"
+description: "Clone the UnleashedRecomp repository and build from source on Windows, Linux, or macOS. Requires game files and a C++20 compiler."
+---
+
+Building Unleashed Recompiled from source requires a C++20-capable compiler, CMake 3.20+, and a legally acquired copy of Sonic Unleashed for Xbox 360 to supply the required game files. The project uses [vcpkg](https://vcpkg.io/) for dependency management — it is bundled as a submodule and invoked automatically during CMake configuration, so no manual setup is needed.
+
+## Prerequisites
+
+| Requirement | Details |
+|---|---|
+| **Compiler** | Clang (via Visual Studio 2022 on Windows, system Clang on Linux/macOS) |
+| **Build system** | CMake 3.20+ and Ninja |
+| **Dependencies** | Managed automatically by vcpkg (bundled submodule) |
+| **Game files** | `default.xex`, `default.xexp`, `shader.ar` from your copy of the game |
+
+## Required Game Files
+
+Before you can compile the project you must place the following files inside `./UnleashedRecompLib/private/`:
+
+- `default.xex` — the game's main executable (found in the game's root directory)
+- `default.xexp` — the title update patch file (obtained via the title update package)
+- `shader.ar` — the packed shader archive (found in the game's root directory)
+
+<Tip>
+  The easiest way to obtain compatible, verified versions of these files is to
+  install the game using an existing [Unleashed Recompiled
+  release](https://github.com/hedge-dev/UnleashedRecomp/releases/latest) first.
+  The installation wizard validates and extracts all required files into the
+  correct layout (`game` and `update` subdirectories), ensuring they are
+  compatible with the build environment.
+</Tip>
+
+## Clone the Repository
+
+Clone the repository along with all submodules (vcpkg, XenonRecomp tooling, plume, and other third-party libraries):
+
+```bash
+git clone --recurse-submodules https://github.com/hedge-dev/UnleashedRecomp.git
+```
+
+<Note>
+  On Windows, if you cloned without `--recurse-submodules`, run
+  `update_submodules.bat` from the repository root to pull them in.
+</Note>
+
+## Platform Build Guides
+
+Select your operating system to continue:
+
+<CardGroup cols={3}>
+  <Card title="Windows" icon="windows" href="/building/windows">
+    Build with Visual Studio 2022 and the Clang compiler.
+  </Card>
+  <Card title="Linux" icon="linux" href="/building/linux">
+    Build with CMake and Clang on Debian/Ubuntu or Arch.
+  </Card>
+  <Card title="macOS" icon="apple" href="/building/macos">
+    Build with Xcode 16.3+ and CMake via Homebrew or MacPorts.
+  </Card>
+</CardGroup>
+
+## Available CMake Presets
+
+All presets use the Ninja generator and write their output to `./out/build/<preset-name>/`. The `Release` preset additionally enables link-time optimisation (`CMAKE_INTERPROCEDURAL_OPTIMIZATION`).
+
+### Windows
+
+| Preset | Build type |
+|---|---|
+| `x64-Clang-Debug` | Debug |
+| `x64-Clang-RelWithDebInfo` | RelWithDebInfo |
+| `x64-Clang-Release` | Release (LTO enabled) |
+
+### Linux
+
+| Preset | Build type |
+|---|---|
+| `linux-debug` | Debug |
+| `linux-relwithdebinfo` | RelWithDebInfo |
+| `linux-release` | Release (LTO enabled) |
+
+### macOS
+
+| Preset | Build type |
+|---|---|
+| `macos-debug` | Debug |
+| `macos-relwithdebinfo` | RelWithDebInfo |
+| `macos-release` | Release (LTO enabled) |
+
+<Tip>
+  Use **RelWithDebInfo** during active development. It compiles significantly
+  faster than a full Debug build and delivers near-Release runtime performance,
+  making it the best choice for iterating on changes without a debugger.
+</Tip>
+
+<Note>
+  The very first build takes considerably longer than subsequent ones because
+  CMake invokes XenonRecomp and XenosRecomp to translate the game's PowerPC
+  binary and Xenos shader bytecode into C++ and HLSL respectively. This
+  recompilation step only runs when the input game files change.
+</Note>

@@ -1,0 +1,65 @@
+---
+title: "Mod Support in Unleashed Recompiled"
+sidebarTitle: "Overview"
+description: "Unleashed Recompiled includes a built-in mod loader compatible with Hedge Mod Manager and the Sonic Generations mod format."
+---
+
+Unleashed Recompiled ships with a built-in mod loader that lets you extend and customise the game without touching its installed files. The recommended way to manage mods is through **Hedge Mod Manager**, the same tool used by the wider Sonic modding community.
+
+## Supported Mod Formats
+
+The mod loader recognises two formats:
+
+- **Sonic Generations format** — the primary and recommended format. If a mod ships with a `mod.ini` and a `files` folder structured the same way as a Generations mod, it will work out of the box.
+- **Unleashed Mod Manager format** — supported for backwards compatibility with mods originally created for [Unleashed Mod Manager](https://github.com/hyperbx/Unleashed-Mod-Manager). This format is now considered **deprecated** and should not be used for new mods.
+
+## Recommended Manager
+
+[Hedge Mod Manager](https://github.com/thesupersonic16/HedgeModManager) is the officially supported tool for installing, enabling, and ordering mods. It is the same manager used across Sonic titles such as Sonic Generations and Sonic Frontiers, so any existing familiarity carries over directly.
+
+For **Linux and Steam Deck** users, the development version of [HMM 8](https://github.com/hedge-dev/HedgeModManager) is recommended and is confirmed to work out of the box on those platforms.
+
+## What Mods Can Do
+
+Mods can replace any loose game file — textures, audio tracks, stage layouts, UI assets, subtitles, and more. Because Unleashed Recompiled loads from its own installed file tree, mods are applied cleanly on top without altering the original installation.
+
+## Current Limitations
+
+Not every category of mod is supported yet:
+
+- Replacing the game's executable (`default.xex`) is **not supported**.
+- Replacing compiled shaders is **not supported**.
+- **Code modding** (patching game logic at runtime) is not yet available and is planned for a future update.
+
+As a workaround until code modding arrives, a set of gameplay codes has been embedded directly into Unleashed Recompiled. You can enable these from the **Codes** tab inside Hedge Mod Manager without any additional setup.
+
+<Note>
+  For details on the mod file structure, see Hedge Mod Manager's [Basic Mod File Structure](https://github.com/thesupersonic16/HedgeModManager/wiki/Basic-Mod-File-Structure) wiki page.
+</Note>
+
+## Compatibility Notes
+
+Mods created for the Xbox 360 version of Sonic Unleashed are generally compatible with Unleashed Recompiled. However, some mods may have been built targeting the version of the game **without the title update** applied. Those mods may behave incorrectly and will need to be updated by their authors to target the title-update version before they work reliably.
+
+<Note>
+  Some mods that were made for the non-title-update version of the game may have issues. If a mod is not working as expected, check with the mod author to see whether an updated version is available.
+</Note>
+
+<Warning>
+  Do **not** install mods by modifying the game data files directly. Always use Hedge Mod Manager. Manually editing game files is unsupported and you will not receive help if you do so.
+</Warning>
+
+<Warning>
+  Unleashed Mod Manager is **not recommended** for use with Unleashed Recompiled. It can make permanent changes to your game files that are difficult to reverse. Use Hedge Mod Manager instead.
+</Warning>
+
+## Get Started
+
+<CardGroup cols={2}>
+  <Card title="Installing Mods" icon="download" href="/mods/installing-mods">
+    Step-by-step guide to downloading and enabling mods with Hedge Mod Manager.
+  </Card>
+  <Card title="Hedge Mod Manager" icon="github" href="https://github.com/thesupersonic16/HedgeModManager">
+    Download Hedge Mod Manager from its official GitHub repository.
+  </Card>
+</CardGroup>
