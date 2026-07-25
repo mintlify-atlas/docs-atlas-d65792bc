@@ -1,7 +1,7 @@
 ---
 title: "Install Mods for Unleashed Recompiled with Hedge Mod Manager"
 sidebarTitle: "Installing Mods"
-description: "Use Hedge Mod Manager to install, enable, and manage mods for Unleashed Recompiled on Windows and Linux."
+description: "Step-by-step guide to downloading, installing, and enabling mods for Unleashed Recompiled using Hedge Mod Manager on Windows and Linux."
 ---
 
 Mods for Unleashed Recompiled are installed and managed through **Hedge Mod Manager (HMM)** — the same tool used across many other Sonic titles. This guide walks you through getting HMM set up and installing your first mod.
@@ -39,7 +39,7 @@ The development version of HMM 8 is designed to work out of the box on Linux and
   </Step>
 
   <Step title="Launch the game through HMM">
-    Always start Unleashed Recompiled through the **Play** button in Hedge Mod Manager so that the mod loader can inject your enabled mods before the game starts. Launching the executable directly will bypass the mod loader.
+    Launch Unleashed Recompiled through the **Play** button in Hedge Mod Manager. The mod loader is built into the game and picks up whichever mods HMM has enabled, so using HMM's Play button ensures your current mod selection is saved and applied correctly.
   </Step>
 </Steps>
 
@@ -56,7 +56,7 @@ Unleashed Recompiled embeds a set of built-in gameplay codes that can be toggled
 When Hedge Mod Manager is active, it redirects your save files to an `mlsave` folder instead of the default `save` folder inside the game's configuration directory:
 
 - **Windows:** `%APPDATA%\UnleashedRecomp\mlsave\`
-- **Linux:** `~/.config/UnleashedRecomp/mlsave\`
+- **Linux:** `~/.config/UnleashedRecomp/mlsave/`
 
 This keeps your modded saves separate from your vanilla saves and means your original progress is never overwritten. If you stop using HMM, the game falls back to reading from the standard `save` folder automatically.
 
@@ -64,7 +64,7 @@ This keeps your modded saves separate from your vanilla saves and means your ori
 
 Unleashed Recompiled uses the same mod format as **Sonic Generations**. A valid mod contains at minimum:
 
-```
+```text
 my-mod/
 ├── mod.ini        ← Metadata (name, author, version, etc.)
 └── files/         ← Replacement game files mirroring the game's directory structure

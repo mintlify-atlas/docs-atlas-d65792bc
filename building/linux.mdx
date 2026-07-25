@@ -1,7 +1,7 @@
 ---
-title: "Build Unleashed Recompiled on Linux"
+title: "Build Unleashed Recompiled on Linux: CMake and Clang"
 sidebarTitle: "Linux"
-description: "Build Unleashed Recompiled on Linux with CMake and Clang. Supports Debian/Ubuntu and Arch-based distributions."
+description: "Build Unleashed Recompiled on Linux using CMake and Clang. Covers dependency setup for Debian/Ubuntu (apt) and Arch-based (pacman) distributions."
 ---
 
 Linux builds are driven entirely from the command line using CMake and the Ninja generator. The compiler is **Clang**, configured via the bundled `toolchains/linux-clang.cmake` toolchain file. vcpkg is included as a submodule and installs all C++ dependencies automatically during the first CMake configure run.

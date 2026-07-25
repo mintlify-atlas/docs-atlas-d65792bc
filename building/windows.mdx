@@ -1,7 +1,7 @@
 ---
-title: "Build Unleashed Recompiled on Windows"
+title: "Build Unleashed Recompiled on Windows with VS 2022"
 sidebarTitle: "Windows"
-description: "Build Unleashed Recompiled on Windows using Visual Studio 2022 with the Clang compiler and CMake tools."
+description: "Build Unleashed Recompiled on Windows using Visual Studio 2022 with the Clang compiler and CMake tools. Requires the Desktop C++ and Clang workloads."
 ---
 
 Windows builds use Visual Studio 2022 as the IDE and toolchain host, but the actual compiler is **Clang** (via the `clang-cl` frontend) rather than MSVC. The three available CMake presets — `x64-Clang-Debug`, `x64-Clang-RelWithDebInfo`, and `x64-Clang-Release` — are all self-contained: vcpkg dependency installation and CMake configuration happen automatically when you open the folder in Visual Studio.

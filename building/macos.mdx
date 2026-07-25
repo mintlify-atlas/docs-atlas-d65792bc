@@ -1,7 +1,7 @@
 ---
-title: "Build Unleashed Recompiled on macOS"
+title: "Build Unleashed Recompiled on macOS with Xcode 16.3"
 sidebarTitle: "macOS"
-description: "Build Unleashed Recompiled on macOS with Xcode 16.3+ or Command Line Tools, CMake, and Ninja via Homebrew or MacPorts."
+description: "Build Unleashed Recompiled on macOS with Xcode 16.3+ or Command Line Tools, CMake, and Ninja via Homebrew or MacPorts. Supports arm64 and x86_64."
 ---
 
 macOS support is community-driven and not currently on the official roadmap, but the build system fully supports it. Vulkan is provided on macOS through [MoltenVK](https://github.com/KhronosGroup/MoltenVK), which is included as a submodule under `thirdparty/MoltenVK`. The macOS deployment target is **13.0**. CI builds run on `macos-15` (Apple Silicon, `arm64`), though x86-64 builds can be produced by passing `-DCMAKE_OSX_ARCHITECTURES=x86_64` at configure time.
@@ -87,13 +87,13 @@ macOS support is community-driven and not currently on the official roadmap, but
   </Step>
 
   <Step title="Run the game">
-    The build produces a macOS app bundle. Open it with:
+    The build produces a macOS app bundle. Navigate to `./out/build/macos-release/UnleashedRecomp/` and open it with:
 
     ```bash
-    open -a "Unleashed Recompiled.app" --args ./out/build/macos-release/UnleashedRecomp
+    open -a "Unleashed Recompiled.app"
     ```
 
-    Or navigate to `./out/build/macos-release/UnleashedRecomp/` and double-click **Unleashed Recompiled.app** in Finder.
+    Or double-click **Unleashed Recompiled.app** in Finder.
 
     On the first run the game will prompt you for your Sonic Unleashed game files if it cannot find an existing installation.
   </Step>

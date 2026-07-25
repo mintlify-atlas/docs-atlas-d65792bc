@@ -1,5 +1,5 @@
 ---
-title: "Video Settings Reference for Unleashed Recompiled"
+title: "Video Settings Reference for Unleashed Recompiled PC Port"
 sidebarTitle: "Video Settings"
 description: "All video and graphics settings in config.toml for Unleashed Recompiled: resolution, anti-aliasing, shadows, frame rate, and rendering API."
 ---
@@ -23,6 +23,8 @@ Settings that control the window, monitor, and on-screen presentation.
 | `WindowWidth` | integer | `1280` | Width of the game window in pixels when not fullscreen. |
 | `WindowHeight` | integer | `720` | Height of the game window in pixels when not fullscreen. |
 | `WindowSize` | integer | `-1` | Preset window size index used by the Options Menu. Set to `-1` when width/height are controlled manually. |
+| `WindowX` | integer | *(centred)* | Horizontal position of the window on screen in pixels. Managed automatically by the game; edit only if you need to pin the window to a precise position. |
+| `WindowY` | integer | *(centred)* | Vertical position of the window on screen in pixels. Managed automatically by the game; edit only if you need to pin the window to a precise position. |
 | `WindowState` | enum | `Normal` | Window state. Valid values: `Normal`, `Maximised` (also accepts `Maximized`). |
 | `Monitor` | integer | `0` | Zero-based index of the monitor to use in fullscreen mode. |
 | `Fullscreen` | bool | `true` | Launch the game in fullscreen mode. |
